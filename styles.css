@@ -1,0 +1,147 @@
+/* styles.css */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 320px;
+    min-height: 100%;
+    background-color:#1f1f1f;
+    margin: 0;
+}
+
+.grid {
+    position: relative;
+    left: -10px;
+    display: grid;
+    grid-template-columns: repeat(6, 48px);
+    grid-template-rows: repeat(6, 48px);
+    gap: 5px;
+    background-color: #282828;
+}
+
+.grid::before {
+    content: "";
+    position: absolute;
+    top: 106px;
+    right: -5px;
+    transform: translateX(100%);
+    width: 24px;
+    height: 48px;
+    background-color: #282828;
+}
+
+.grid::after {
+    content: "";
+    position: absolute;
+    top: 106px;
+    right: -5px;
+    transform: translateX(100%);
+    width: 24px;
+    height: 48px;
+    background-color: #3d3b24;
+    mask-image: url("./arrow.png");
+    mask-repeat: no-repeat;
+    mask-size: 150%;
+    mask-position: center;
+}
+
+.block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 2px;
+}
+
+.block:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.block:active {
+    opacity: 0.5;
+}
+
+
+.block.red {
+    background: url("./red.svg");
+    background-color: rgba(252, 20, 18, 0.1);
+    background-size: 100% 100%;
+}
+
+.block.green {
+    background: url("./green.svg");
+    background-color: rgba(0, 254, 100, 0.1);
+    background-size: 100% 100%;
+}
+
+.block.key {
+    background: url("./key.svg");
+    background-color: #3d3b24;
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* Timer */
+.timer {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    color: white;
+}
+
+.timer__text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.timer__value {
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.timer__value--stopped {
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        left: 0;
+        grid-template-columns: repeat(6, 100px);
+        grid-template-rows: repeat(6, 100px);
+    }
+
+    .grid::before {
+        top: 210px;
+        right: -5px;
+        width: 50px;
+        height: 100px;
+    }
+    
+    .grid::after {
+        top: 210px;
+        right: -5px;
+        width: 50px;
+        height: 100px;
+    }
+
+    .timer {
+        font-size: 26px;
+    }
+}
