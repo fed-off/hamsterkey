@@ -10,14 +10,17 @@ html {
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     min-width: 320px;
     min-height: 100%;
     background-color:#2d2a2d;
     margin: 0;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .grid {
@@ -120,11 +123,16 @@ body {
     font-weight: 700;
 }
 
+.video-wrapper {
+    width: fit-content;
+    margin: 0 auto;
+}
+
 @media (min-width: 768px) {
     .grid {
         left: 0;
-        grid-template-columns: repeat(6, 100px);
-        grid-template-rows: repeat(6, 100px);
+        grid-template-columns: repeat(6, 90px);
+        grid-template-rows: repeat(6, 90px);
     }
 
     .grid::before {
