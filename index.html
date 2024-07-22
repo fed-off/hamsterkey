@@ -16,19 +16,29 @@
     </head>
     <body>
         <div class="video-wrapper">
-            <video width="320" height="320" controls autoplay loop>
+            <video id="myVideo" width="240" height="240" controls autoplay loop>
                 <source src="https://fs3.fastupload.io/492939e9b5386f86/video.mp4?download_token=56a7c585f11fd4cf2421842d96f1287fbd8d45706c778239772ced8c6edebe3a" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
+
         <div class="timer">
             <p class="timer__text">Затрачено времени: 
                 <output class="timer__value">00:00</output>
             </p>
         </div>
+
         <div class="grid">
             <!-- Blocks will be dynamically generated here -->
         </div>
+
+        <script>
+            // Получаем элемент видео
+            var video = document.getElementById('myVideo');
+
+            // Устанавливаем скорость воспроизведения
+            video.playbackRate = 0.5;
+        </script>
         <script src="script.js"></script>
     </body>
 </html>
