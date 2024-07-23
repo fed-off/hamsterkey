@@ -33,23 +33,28 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div class="video-wrapper">
-            <video id="myVideo" width="240" height="240" controls>
-                <source src="https://fs6.fastupload.io/4436a8d0d5b0579d/minigame5-1.mp4?download_token=f3970225163f8c2d7ef81e2f50ca72186cda61a30dee523c1c2a5c22d98d0b4c" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="content-wrapper">
-            <div class="timer">
-                <p class="timer__text">Затрачено времени: 
-                    <output class="timer__value">00:00</output>
-                </p>
-            </div>
-    
-            <div class="grid">
-                <!-- Blocks will be dynamically generated here -->
-            </div>
-        </div>
+        <main>
+            <h1 class="visually-hidden">Hamster Kombat Мини Игра</h1>
+            <section class="video-wrapper">
+                <h2 class="visually-hidden">Видео прохождение</h2>
+                <video id="myVideo" width="240" height="240" controls>
+                    <source src="https://fs6.fastupload.io/4436a8d0d5b0579d/minigame5-1.mp4?download_token=f3970225163f8c2d7ef81e2f50ca72186cda61a30dee523c1c2a5c22d98d0b4c" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </section>
+            <section class="content-wrapper">
+                <h2 class="visually-hidden">Мини игра без ограничения по времени</h2>
+                <div class="timer">
+                    <p class="timer__text">Затрачено времени: 
+                        <output class="timer__value">00:00</output>
+                    </p>
+                </div>
+        
+                <div class="grid">
+                    <!-- Blocks will be dynamically generated here -->
+                </div>
+            </section>
+        </main>
 
         <script>
             // Получаем элемент видео
