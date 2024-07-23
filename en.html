@@ -1,1 +1,63 @@
-Hello world!
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5HXH2JVJYS"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-5HXH2JVJYS');
+        </script>
+
+        <title>Hamster Kombat Mini Game 5</title>
+        <meta name="date" content="2024-07-23" />
+        <meta name="description" content="Practice hamster mini-game and get the key">
+        <meta name="keywords" content="Hamster, Kombat, mini game, mini-game, minigame, key, solution, practice, training, without timer">
+        <link rel="canonical" href="https://hamsterkey.online">
+        <meta property="og:title" content="Hamster Kombat Mini Game">
+        <meta property="og:description" content="Practice hamster mini-game and get the key">
+        <meta property="og:image" content="https://hamsterkey.online/demo.jpg">
+        <meta property="og:url" content="https://hamsterkey.online">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Hamster Kombat Mini Game">
+        <meta name="twitter:description" content="Practice hamster mini-game and get the key">
+        <meta name="twitter:image" content="https://hamsterkey.online/demo.jpg">
+        <meta name="author" content="fed-off">
+
+        <link rel="alternate" hreflang="ru" href="https://hamsterkey.online" />
+
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="video-wrapper">
+            <video id="myVideo" width="240" height="240" controls>
+                <source src="https://fs6.fastupload.io/4436a8d0d5b0579d/minigame5-1.mp4?download_token=f3970225163f8c2d7ef81e2f50ca72186cda61a30dee523c1c2a5c22d98d0b4c" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="content-wrapper">
+            <div class="timer">
+                <p class="timer__text">Time spent: 
+                    <output class="timer__value">00:00</output>
+                </p>
+            </div>
+    
+            <div class="grid">
+                <!-- Blocks will be dynamically generated here -->
+            </div>
+        </div>
+
+        <script>
+            // Получаем элемент видео
+            var video = document.getElementById('myVideo');
+
+            // Устанавливаем скорость воспроизведения
+            video.playbackRate = 0.5;
+        </script>
+        <script src="script.js"></script>
+    </body>
+</html>
