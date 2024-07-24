@@ -154,6 +154,10 @@ body {
     color: white;
 }
 
+.timer a:active {
+    opacity: 0.7;
+}
+
 .tg-link img {
     display: block;
     width: 30px;
@@ -168,14 +172,22 @@ body {
 }
 
 .refresh {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 40px;
     height: 40px;
     color: white;
-    background-color: transparent;
-    font-size: 26px;
+    background-color: #363436;
+    font-size: 28px;
+    line-height: 100%;
     border-radius: 50%;
+    border: 0;
     cursor: pointer;
+}
+
+.refresh:active {
+    background-color:rgba(18, 226, 50, 0.1);
 }
 
 .timer__text {
