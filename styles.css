@@ -183,7 +183,7 @@ body {
     font-size: 32px;
     line-height: 40px;
     border-radius: 50%;
-    border: 0;
+    border: 2px solid gray;
     cursor: pointer;
 }
 
