@@ -39,6 +39,22 @@ body {
     opacity: 0.8;
 }
 
+.progress-container {
+    width: 100%;
+    height: 5px; /* Высота прогресс-бара */
+    background-color: rgba(18, 226, 50, 0.8); /* Цвет фона */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: rgba(241, 48, 50, 0.8); /* Цвет заполнения */
+    width: 50%; /* Изначально заполнение 0% */
+    transition: width 0.1s; /* Плавное изменение ширины */
+}
 
 .content-wrapper {
     display: flex;

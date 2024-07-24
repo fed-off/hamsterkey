@@ -154,4 +154,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return true;
     }
+
+    function updateProgressBar() {
+        const now = new Date();
+        const targetHourUTC = 20;
+        const targetTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), targetHourUTC));
+    
+        // Если текущее время больше или равно целевому, установим целевое время на следующий день
+        if (now >= targetTime) {
+            targetTime.setUTCDate(targetTime.getUTCDate() + 1);
+        }
+    
+        const startOfDay = new Date(targetTime);
+        startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
+    
+        const elapsed = now - startOfDay;
+        const total = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+        const progress = (elapsed / total) * 100;
+    
+        document.getElementById('progress-bar').style.width = progress + '%';
+    }
+    
+    // Обновляем прогресс-бар каждые 1000 миллисекунд (1 секунда)
+    setInterval(updateProgressBar, 1000);
+    
+    // Инициализируем прогресс-бар при загрузке страницы
+    updateProgressBar();
+    
 });
