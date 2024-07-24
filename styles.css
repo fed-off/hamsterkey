@@ -143,6 +143,9 @@ body {
 
 /* Timer */
 .timer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 18px;
     color: white;
