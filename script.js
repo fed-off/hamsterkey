@@ -157,14 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateProgressBar() {
         const now = new Date();
-        const targetHourUTC = 20;
-        const targetTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), targetHourUTC));
-    
-        // Если текущее время больше или равно целевому, установим целевое время на следующий день
-        if (now >= targetTime) {
-            targetTime.setUTCDate(targetTime.getUTCDate() + 1);
-        }
-    
+        const targetTime = new Date(Date.UTC(2024, 6, 24, 20));
+   
         const startOfDay = new Date(targetTime);
         startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
     
