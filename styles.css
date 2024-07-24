@@ -144,8 +144,10 @@ body {
 /* Timer */
 .timer {
     display: flex;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 10px;
+    width: 300px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 18px;
     color: white;
@@ -197,7 +199,7 @@ body {
         height: 100px;
     }
 
-    .timer {
+    /* .timer {
         font-size: 26px;
-    }
+    } */
 }
