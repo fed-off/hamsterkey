@@ -188,15 +188,11 @@ body {
   content: "";
   width: 25px;
   height: 25px;
-  -webkit-mask-image: url("./refresh.png");
-          mask-image: url("./refresh.png");
-  background-color: white;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-          mask-size: contain;
-  -webkit-mask-position: center;
-          mask-position: center;
+
+  background-image: url("./refresh.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .refresh:active {
