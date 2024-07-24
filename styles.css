@@ -39,16 +39,6 @@ body {
     opacity: 0.8;
 }
 
-.expiration-date {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 26px;
-    color: white;
-    position: absolute;
-    top: 0;
-    left: calc(100% - 100px);
-    padding: 10px;
-}
-
 .progress-container {
     width: 100%;
     height: 4px; /* Высота прогресс-бара */
