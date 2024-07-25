@@ -1,1 +1,204 @@
-function _0x2dbc(_0x12c4dc,_0x2bbb73){const _0x3981e0=_0x3981();return _0x2dbc=function(_0x2dbcaf,_0x19596d){_0x2dbcaf=_0x2dbcaf-0x158;let _0x266c3d=_0x3981e0[_0x2dbcaf];return _0x266c3d;},_0x2dbc(_0x12c4dc,_0x2bbb73);}const _0x2c3769=_0x2dbc;(function(_0x2d8013,_0x31c410){const _0x1dc823=_0x2dbc,_0x6a1ab=_0x2d8013();while(!![]){try{const _0x2f655f=parseInt(_0x1dc823(0x182))/0x1+parseInt(_0x1dc823(0x181))/0x2*(parseInt(_0x1dc823(0x15f))/0x3)+parseInt(_0x1dc823(0x186))/0x4+-parseInt(_0x1dc823(0x162))/0x5+-parseInt(_0x1dc823(0x16e))/0x6+parseInt(_0x1dc823(0x176))/0x7+-parseInt(_0x1dc823(0x172))/0x8;if(_0x2f655f===_0x31c410)break;else _0x6a1ab['push'](_0x6a1ab['shift']());}catch(_0x4b24e7){_0x6a1ab['push'](_0x6a1ab['shift']());}}}(_0x3981,0xa9df9));const gridSize=0x6;let blockSize;const blocks=[{'id':_0x2c3769(0x16b),'x':0x0,'y':0x0,'width':0x1,'height':0x3,'color':_0x2c3769(0x17e)},{'id':_0x2c3769(0x164),'x':0x1,'y':0x1,'width':0x1,'height':0x2,'color':_0x2c3769(0x17e)},{'id':'red3','x':0x3,'y':0x0,'width':0x1,'height':0x2,'color':_0x2c3769(0x17e)},{'id':_0x2c3769(0x165),'x':0x4,'y':0x1,'width':0x1,'height':0x3,'color':_0x2c3769(0x17e)},{'id':_0x2c3769(0x18b),'x':0x5,'y':0x2,'width':0x1,'height':0x2,'color':_0x2c3769(0x17e)},{'id':'red6','x':0x2,'y':0x4,'width':0x1,'height':0x2,'color':_0x2c3769(0x17e)},{'id':_0x2c3769(0x16c),'x':0x0,'y':0x3,'width':0x3,'height':0x1,'color':_0x2c3769(0x160)},{'id':_0x2c3769(0x173),'x':0x4,'y':0x0,'width':0x2,'height':0x1,'color':_0x2c3769(0x160)},{'id':'green3','x':0x4,'y':0x4,'width':0x2,'height':0x1,'color':_0x2c3769(0x160)},{'id':_0x2c3769(0x16d),'x':0x4,'y':0x5,'width':0x2,'height':0x1,'color':_0x2c3769(0x160)},{'id':_0x2c3769(0x17f),'x':0x2,'y':0x2,'width':0x2,'height':0x1,'color':_0x2c3769(0x17f)}];function _0x3981(){const _0x1c346b=['red1','green1','green4','2923986QkfOzk','textContent','clientY','slice','8738760nBeZAq','green2','.refresh','mousedown','5278812eVXIlB','dataset','startY','startX','rgba(252,\x2020,\x2018,\x200.2)','backgroundColor','style','querySelector','red','key','initialX','2yymXml','1079312lkGQWv','UTC','DOMContentLoaded','touchend','2286636IScORS','block','map','addEventListener','remove','red5','width','preventDefault','getElementById','clientX','add','color','target','00:00','transparent','height','.timer__value','top','left','forEach','touchmove','classList','initialY','getUTCDate','504753VefGhp','green','mousemove','1489305erMxXe','round','red2','red4','contains','touches','.grid','timer__value--stopped','.block'];_0x3981=function(){return _0x1c346b;};return _0x3981();}document[_0x2c3769(0x189)](_0x2c3769(0x184),()=>{const _0xe79736=_0x2c3769,_0x20bcc1=document[_0xe79736(0x17d)](_0xe79736(0x168)),_0x4a6879=document['documentElement']['clientWidth'];_0x4a6879<0x300?blockSize=0x30:blockSize=0x5a;function _0x388948(_0x4f261c){const _0x3295e1=_0xe79736,_0x5bff80=document['createElement']('button');return _0x5bff80[_0x3295e1(0x15c)][_0x3295e1(0x190)](_0x3295e1(0x187),_0x4f261c[_0x3295e1(0x191)]),_0x5bff80[_0x3295e1(0x17c)][_0x3295e1(0x18c)]=_0x4f261c['width']*blockSize+(_0x4f261c[_0x3295e1(0x18c)]-0x1)*0x5+'px',_0x5bff80['style'][_0x3295e1(0x195)]=_0x4f261c['height']*blockSize+(_0x4f261c[_0x3295e1(0x195)]-0x1)*0x5+'px',_0x5bff80[_0x3295e1(0x17c)][_0x3295e1(0x159)]=_0x4f261c['x']*blockSize+_0x4f261c['x']*0x5+'px',_0x5bff80['style'][_0x3295e1(0x158)]=_0x4f261c['y']*blockSize+_0x4f261c['y']*0x5+'px',_0x5bff80[_0x3295e1(0x177)]['x']=_0x4f261c['x'],_0x5bff80[_0x3295e1(0x177)]['y']=_0x4f261c['y'],_0x5bff80[_0x3295e1(0x177)][_0x3295e1(0x18c)]=_0x4f261c[_0x3295e1(0x18c)],_0x5bff80[_0x3295e1(0x177)][_0x3295e1(0x195)]=_0x4f261c['height'],_0x5bff80[_0x3295e1(0x177)][_0x3295e1(0x191)]=_0x4f261c[_0x3295e1(0x191)],_0x5bff80[_0x3295e1(0x177)]['id']=_0x4f261c['id'],_0x20bcc1['appendChild'](_0x5bff80),_0x5bff80;}let _0x518852=blocks['map'](_0x388948);function _0x1b536f(){const _0x378a55=_0xe79736;_0x518852[_0x378a55(0x15a)](_0x4d8e0d=>_0x4d8e0d[_0x378a55(0x18a)]()),_0x518852=blocks[_0x378a55(0x188)](_0x388948);}function _0x3a924d(_0x5a6a89){return _0x5a6a89<0xa?'0'+_0x5a6a89:_0x5a6a89;}let _0x5cb465=0x0;const _0x6c6646=document[_0xe79736(0x17d)](_0xe79736(0x196));let _0x1e85eb;function _0x323443(){_0x1e85eb=setInterval(()=>{const _0x571775=_0x2dbc;_0x5cb465++;const _0x59607a=Math['floor'](_0x5cb465/0x3c),_0x1b7cc9=_0x5cb465%0x3c;_0x6c6646[_0x571775(0x16f)]=_0x3a924d(_0x59607a)+':'+_0x3a924d(_0x1b7cc9);},0x3e8);}_0x323443();function _0x2e451c(){const _0x5a2f3d=_0xe79736,_0xb7e1b0='rgba(0,\x20254,\x20100,\x200.2)',_0x31d213=_0x5a2f3d(0x17a),_0x1593c0=0x1e,_0x492c4c=+_0x6c6646['textContent'][_0x5a2f3d(0x171)](-0x2),_0x3cf9a0=+_0x6c6646[_0x5a2f3d(0x16f)]['slice'](0x0,0x2),_0x342834=_0x3cf9a0?_0x1593c0+0x1:_0x492c4c;_0x342834<_0x1593c0?_0x6c6646['style'][_0x5a2f3d(0x17b)]=''+_0xb7e1b0:_0x6c6646['style'][_0x5a2f3d(0x17b)]=''+_0x31d213,clearInterval(_0x1e85eb),_0x6c6646[_0x5a2f3d(0x15c)]['add'](_0x5a2f3d(0x169));}function _0x50a2f6(){const _0x3a945b=_0xe79736;_0x2e451c(),_0x5cb465=0x0,_0x6c6646[_0x3a945b(0x16f)]=_0x3a945b(0x193),_0x6c6646[_0x3a945b(0x17c)][_0x3a945b(0x17b)]=_0x3a945b(0x194),_0x6c6646[_0x3a945b(0x15c)][_0x3a945b(0x18a)](_0x3a945b(0x169)),_0x323443();}let _0x189a50=null;function _0x299bef(_0x1319c4){const _0x43ee81=_0xe79736,_0x460e2a=_0x1319c4[_0x43ee81(0x167)]?_0x1319c4['touches'][0x0]:_0x1319c4;_0x460e2a[_0x43ee81(0x192)][_0x43ee81(0x15c)][_0x43ee81(0x166)](_0x43ee81(0x187))&&(_0x189a50=_0x460e2a['target'],_0x189a50['initialX']=_0x460e2a['clientX'],_0x189a50[_0x43ee81(0x15d)]=_0x460e2a[_0x43ee81(0x170)],_0x189a50[_0x43ee81(0x179)]=parseInt(_0x189a50['dataset']['x']),_0x189a50[_0x43ee81(0x178)]=parseInt(_0x189a50[_0x43ee81(0x177)]['y']));}function _0x312e4b(){const _0x4dacda=_0xe79736;_0x189a50[_0x4dacda(0x177)]['id']===_0x4dacda(0x17f)&&_0x189a50['dataset']['x']==='4'&&_0x2e451c(),_0x189a50&&(_0x189a50=null);}function _0xc854e9(_0x2e88c8){const _0xab79b3=_0xe79736;_0x2e88c8[_0xab79b3(0x18d)]();const _0x3962cf=_0x2e88c8[_0xab79b3(0x167)]?_0x2e88c8[_0xab79b3(0x167)][0x0]:_0x2e88c8;if(_0x189a50){const _0xe9ee67=_0x3962cf[_0xab79b3(0x18f)]-_0x189a50[_0xab79b3(0x180)],_0x151210=_0x3962cf[_0xab79b3(0x170)]-_0x189a50[_0xab79b3(0x15d)],_0x3fccf6=Math[_0xab79b3(0x163)](_0xe9ee67/blockSize),_0x444246=Math[_0xab79b3(0x163)](_0x151210/blockSize),_0x7ffa05=_0x189a50['startX']+(_0x189a50[_0xab79b3(0x177)][_0xab79b3(0x191)]==='green'||_0x189a50[_0xab79b3(0x177)]['color']===_0xab79b3(0x17f)?_0x3fccf6:0x0),_0x381694=_0x189a50[_0xab79b3(0x178)]+(_0x189a50[_0xab79b3(0x177)]['color']===_0xab79b3(0x17e)?_0x444246:0x0);_0x533c9e(_0x189a50,_0x7ffa05,_0x381694)&&(_0x189a50[_0xab79b3(0x17c)][_0xab79b3(0x159)]=_0x7ffa05*blockSize+_0x7ffa05*0x5+'px',_0x189a50['style']['top']=_0x381694*blockSize+_0x381694*0x5+'px',_0x189a50[_0xab79b3(0x177)]['x']=_0x7ffa05,_0x189a50[_0xab79b3(0x177)]['y']=_0x381694);}}_0x20bcc1[_0xe79736(0x189)](_0xe79736(0x175),_0x299bef),_0x20bcc1['addEventListener']('touchstart',_0x299bef),document[_0xe79736(0x189)]('mouseup',_0x312e4b),document['addEventListener'](_0xe79736(0x185),_0x312e4b),_0x20bcc1['addEventListener'](_0xe79736(0x161),_0xc854e9),_0x20bcc1[_0xe79736(0x189)](_0xe79736(0x15b),_0xc854e9,{'passive':![]});function _0x533c9e(_0x5cb1c4,_0x562883,_0x1d23c5){const _0xd8ceb1=_0xe79736,_0x23fe52=parseInt(_0x5cb1c4[_0xd8ceb1(0x177)][_0xd8ceb1(0x18c)]),_0x37ba00=parseInt(_0x5cb1c4['dataset'][_0xd8ceb1(0x195)]);if(_0x562883<0x0||_0x1d23c5<0x0||_0x562883+_0x23fe52>gridSize||_0x1d23c5+_0x37ba00>gridSize)return![];for(const _0x1f11d6 of document['querySelectorAll'](_0xd8ceb1(0x16a))){if(_0x1f11d6===_0x5cb1c4)continue;const _0x263dcc=parseInt(_0x1f11d6['dataset']['x']),_0x33a2d9=parseInt(_0x1f11d6['dataset']['y']),_0x345c22=parseInt(_0x1f11d6['dataset'][_0xd8ceb1(0x18c)]),_0x3615cf=parseInt(_0x1f11d6[_0xd8ceb1(0x177)][_0xd8ceb1(0x195)]);if(_0x562883<_0x263dcc+_0x345c22&&_0x562883+_0x23fe52>_0x263dcc&&_0x1d23c5<_0x33a2d9+_0x3615cf&&_0x1d23c5+_0x37ba00>_0x33a2d9)return![];}return!![];}function _0x145e11(){const _0xf49401=_0xe79736,_0x12e1a6=new Date(),_0x301ebb=new Date(Date[_0xf49401(0x183)](0x7e8,0x6,0x19,0x14)),_0x4c07af=new Date(_0x301ebb);_0x4c07af['setUTCDate'](_0x4c07af[_0xf49401(0x15e)]()-0x1);const _0x1173e5=_0x12e1a6-_0x4c07af,_0x38a4bc=0x18*0x3c*0x3c*0x3e8,_0x33b7a1=_0x1173e5/_0x38a4bc*0x64;document[_0xf49401(0x18e)]('progress-bar')[_0xf49401(0x17c)][_0xf49401(0x18c)]=_0x33b7a1+'%';}setInterval(_0x145e11,0x3e8),_0x145e11();const _0x7fcfdc=document[_0xe79736(0x17d)](_0xe79736(0x174));_0x7fcfdc[_0xe79736(0x189)]('click',()=>{_0x50a2f6(),_0x1b536f();});});
+const gridSize = 6;
+let blockSize;
+const blocks = [
+    { id: 'red1', x: 0, y: 2, width: 1, height: 2, color: 'red' },
+    { id: 'red2', x: 1, y: 3, width: 1, height: 3, color: 'red' },
+    { id: 'red3', x: 2, y: 3, width: 1, height: 2, color: 'red' },
+    { id: 'red4', x: 4, y: 1, width: 1, height: 3, color: 'red' },
+    { id: 'red5', x: 5, y: 0, width: 1, height: 2, color: 'red' },
+    { id: 'red6', x: 5, y: 3, width: 1, height: 2, color: 'red' },
+    { id: 'green1', x: 0, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'green2', x: 1, y: 1, width: 3, height: 1, color: 'green' },
+    { id: 'green3', x: 3, y: 4, width: 2, height: 1, color: 'green' },
+    { id: 'green4', x: 3, y: 5, width: 3, height: 1, color: 'green' },
+    { id: 'key', x: 1, y: 2, width: 2, height: 1, color: 'key' }
+];
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.querySelector('.grid');
+    const viewPortSize = document.documentElement.clientWidth;
+    if (viewPortSize < 768) {
+        blockSize = 48;
+    } else {
+        blockSize = 90;
+    }
+    function createBlock(block) {
+        const element = document.createElement('button');
+        element.classList.add('block', block.color);
+        element.style.width = `${block.width * blockSize + (block.width - 1) * 5}px`;
+        element.style.height = `${block.height * blockSize + (block.height - 1) * 5}px`;
+        element.style.left = `${block.x * blockSize + block.x * 5}px`;
+        element.style.top = `${block.y * blockSize + block.y * 5}px`;
+        element.dataset.x = block.x;
+        element.dataset.y = block.y;
+        element.dataset.width = block.width;
+        element.dataset.height = block.height;
+        element.dataset.color = block.color;
+        element.dataset.id = block.id;
+        grid.appendChild(element);
+        return element;
+    }
+
+
+    let blockElements = blocks.map(createBlock);
+
+    function resetGrid() {
+        blockElements.forEach(element => element.remove());
+        blockElements = blocks.map(createBlock);
+    }
+
+    // Функция для форматирования чисел в формате двузначного числа
+    function formatTime(number) {
+        return number < 10 ? `0${number}` : number;
+    }
+
+    let totalSeconds = 0;
+    const timerValue = document.querySelector('.timer__value');
+    let timerInterval;
+
+    // Обновление таймера каждую секунду
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            totalSeconds++;
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            timerValue.textContent = `${formatTime(minutes)}:${formatTime(seconds)}`;
+        }, 1000);
+    }
+
+    startTimer();
+
+    // Функция для остановки таймера
+    function stopTimer() {
+        const GREEN = 'rgba(0, 254, 100, 0.2)';
+        const RED = 'rgba(252, 20, 18, 0.2)';
+        const WIN_TIME = 30;
+        const timeResultSeconds = (+timerValue.textContent.slice(-2));
+        const timeResultMinutes = (+timerValue.textContent.slice(0, 2));
+        const timeResult = timeResultMinutes ? WIN_TIME + 1 : timeResultSeconds;
+        timeResult < WIN_TIME ? timerValue.style.backgroundColor = `${GREEN}` : timerValue.style.backgroundColor = `${RED}`;
+
+        clearInterval(timerInterval);
+        timerValue.classList.add('timer__value--stopped');
+    }
+
+    function resetTimer() {
+        stopTimer();
+        totalSeconds = 0;
+        timerValue.textContent = '00:00';
+        timerValue.style.backgroundColor = 'transparent';
+        timerValue.classList.remove('timer__value--stopped');
+        startTimer();
+    }
+
+    let selectedBlock = null;
+
+    function startDrag(e) {
+        const event = e.touches ? e.touches[0] : e;
+        if (event.target.classList.contains('block')) {
+            selectedBlock = event.target;
+            selectedBlock.initialX = event.clientX;
+            selectedBlock.initialY = event.clientY;
+            selectedBlock.startX = parseInt(selectedBlock.dataset.x);
+            selectedBlock.startY = parseInt(selectedBlock.dataset.y);
+        }
+    }
+    
+    function stopDrag() {
+        if (selectedBlock.dataset.id === 'key' &&
+            selectedBlock.dataset.x === '4') {
+                stopTimer();
+            }
+
+        if (selectedBlock) {
+            selectedBlock = null;
+        }
+    }
+
+    function drag(e) {
+        e.preventDefault();
+        const event = e.touches ? e.touches[0] : e;
+        if (selectedBlock) {
+            const dx = event.clientX - selectedBlock.initialX;
+            const dy = event.clientY - selectedBlock.initialY;
+            const deltaX = Math.round(dx / blockSize);
+            const deltaY = Math.round(dy / blockSize);
+            const newX = selectedBlock.startX + (selectedBlock.dataset.color === 'green' || selectedBlock.dataset.color === 'key' ? deltaX : 0);
+            const newY = selectedBlock.startY + (selectedBlock.dataset.color === 'red' ? deltaY : 0);
+
+            if (canMove(selectedBlock, newX, newY)) {
+                selectedBlock.style.left = `${newX * blockSize + newX * 5}px`;
+                selectedBlock.style.top = `${newY * blockSize + newY * 5}px`;
+                selectedBlock.dataset.x = newX;
+                selectedBlock.dataset.y = newY;
+            }
+        }
+    }
+
+    grid.addEventListener('mousedown', startDrag);
+    grid.addEventListener('touchstart', startDrag);
+
+    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('touchend', stopDrag);
+
+    grid.addEventListener('mousemove', drag);
+    grid.addEventListener('touchmove', drag, {passive: false});
+
+    function canMove(block, newX, newY) {
+        const width = parseInt(block.dataset.width);
+        const height = parseInt(block.dataset.height);
+
+        // Check boundaries
+        if (newX < 0 || newY < 0 || newX + width > gridSize || newY + height > gridSize) {
+            return false;
+        }
+
+        // Check collisions
+        for (const otherBlock of document.querySelectorAll('.block')) {
+            if (otherBlock === block) continue;
+            const otherX = parseInt(otherBlock.dataset.x);
+            const otherY = parseInt(otherBlock.dataset.y);
+            const otherWidth = parseInt(otherBlock.dataset.width);
+            const otherHeight = parseInt(otherBlock.dataset.height);
+
+            if (
+                newX < otherX + otherWidth &&
+                newX + width > otherX &&
+                newY < otherY + otherHeight &&
+                newY + height > otherY
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function updateProgressBar() {
+        const now = new Date();
+        const targetTime = new Date(Date.UTC(2024, 6, 26, 20));
+
+        const startOfDay = new Date(targetTime);
+        startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
+    
+        const elapsed = now - startOfDay;
+        const total = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+        const progress = (elapsed / total) * 100;
+
+        document.getElementById('progress-bar').style.width = progress + '%';
+    }
+    
+    // Обновляем прогресс-бар каждые 1000 миллисекунд (1 секунда)
+    setInterval(updateProgressBar, 1000);
+    
+    // Инициализируем прогресс-бар при загрузке страницы
+    updateProgressBar();
+    
+
+    const buttonRefresh = document.querySelector('.refresh');
+    buttonRefresh.addEventListener('click', () => {
+        // resetTimer();
+        // resetGrid();
+        location.reload();
+    });
+});
