@@ -197,8 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buttonRefresh = document.querySelector('.refresh');
     buttonRefresh.addEventListener('click', () => {
-        // resetTimer();
-        // resetGrid();
-        location.reload();
+        resetTimer();
+        resetGrid();
+        // location.reload();
     });
 });
