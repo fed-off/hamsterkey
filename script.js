@@ -1,17 +1,17 @@
 const gridSize = 6;
 let blockSize;
 const blocks = [
-    { id: 'red1', x: 2, y: 1, width: 1, height: 2, color: 'red' },
-    { id: 'red2', x: 2, y: 3, width: 1, height: 2, color: 'red' },
-    { id: 'red3', x: 3, y: 1, width: 1, height: 3, color: 'red' },
-    { id: 'red4', x: 4, y: 1, width: 1, height: 2, color: 'red' },
-    { id: 'red5', x: 5, y: 0, width: 1, height: 2, color: 'red' },
-    { id: 'red6', x: 5, y: 4, width: 1, height: 2, color: 'red' },
-    { id: 'green1', x: 1, y: 0, width: 3, height: 1, color: 'green' },
-    { id: 'green2', x: 1, y: 5, width: 2, height: 1, color: 'green' },
-    { id: 'green3', x: 3, y: 4, width: 2, height: 1, color: 'green' },
-    { id: 'green4', x: 4, y: 3, width: 2, height: 1, color: 'green' },
-    { id: 'key', x: 0, y: 2, width: 2, height: 1, color: 'key' }
+    { id: 'red1', x: 1, y: 1, width: 1, height: 2, color: 'red' },
+    { id: 'red2', x: 4, y: 0, width: 1, height: 3, color: 'red' },
+    { id: 'red3', x: 5, y: 0, width: 1, height: 2, color: 'red' },
+    { id: 'red4', x: 2, y: 3, width: 1, height: 2, color: 'red' },
+    { id: 'red5', x: 3, y: 4, width: 1, height: 2, color: 'red' },
+    { id: 'green1', x: 0, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'green2', x: 0, y: 4, width: 2, height: 1, color: 'green' },
+    { id: 'green3', x: 0, y: 5, width: 3, height: 1, color: 'green' },
+    { id: 'green4', x: 2, y: 1, width: 2, height: 1, color: 'green' },
+    { id: 'green5', x: 4, y: 3, width: 2, height: 1, color: 'green' },
+    { id: 'key', x: 2, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
 
@@ -108,6 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
             selectedBlock.dataset.x === '4') {
+                if (totalSeconds <= 15) {
+                    stopTimer();
+                    alert(`Поздравляем! Ваше время ${totalSeconds} секунд!\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`);
+                }
                 stopTimer();
             }
 
@@ -176,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateProgressBar() {
         const now = new Date();
-        const targetTime = new Date(Date.UTC(2024, 6, 27, 20));
+        const targetTime = new Date(Date.UTC(2024, 6, 28, 20));
 
         const startOfDay = new Date(targetTime);
         startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
