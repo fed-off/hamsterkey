@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedBlock.dataset.x === '4') {
                 if (totalSeconds <= 15) {
                     stopTimer();
-                    alert(`Поздравляем! Ваше время ${totalSeconds} секунд!\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`);
+                    // alert(`Поздравляем! Ваше время ${totalSeconds} секунд!\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`);
                 }
                 stopTimer();
             }
