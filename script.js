@@ -209,7 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buttonGift = document.querySelector('.gift');
     buttonGift.addEventListener('click', () => {
-        alert('Разыгрываем ключ для хомяка из игры Riding Extreme 3D! 🎁🗝️\nПобедит первый, кто пройдет новую 9-ю головоломку за 15 секунд или быстрее.\nНужно сделать скриншот и выложить его в телеграм канале. Удачи!');
+        const htmlLang = document.documentElement.lang;
+        const msg = htmlLang === 'ru' ?
+            'Разыгрываем ключи из игры Riding Extreme 3D! Подробности в телеграм-канале.' :
+            'We are giving away keys from the game Riding Extreme 3D! Details in the telegram channel.';
+        alert(msg);
     });
 
     // Устанавливаем скорость воспроизведения
