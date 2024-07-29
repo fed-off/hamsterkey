@@ -171,6 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function canMove(block, newX, newY) {
         const width = parseInt(block.dataset.width);
         const height = parseInt(block.dataset.height);
+        const currentX = parseInt(block.dataset.x, 10);
+        const currentY = parseInt(block.dataset.y, 10);
 
         // Check boundaries
         if (newX < 0 || newY < 0 || newX + width > gridSize || newY + height > gridSize) {
@@ -178,23 +180,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Check collisions
-        for (const otherBlock of document.querySelectorAll('.block')) {
-            if (otherBlock === block) continue;
-            const otherX = parseInt(otherBlock.dataset.x);
-            const otherY = parseInt(otherBlock.dataset.y);
-            const otherWidth = parseInt(otherBlock.dataset.width);
-            const otherHeight = parseInt(otherBlock.dataset.height);
-
-            if (
-                newX < otherX + otherWidth &&
-                newX + width > otherX &&
-                newY < otherY + otherHeight &&
-                newY + height > otherY
-            ) {
-                return false;
+        if (newX !== currentX) {
+            const step = newX > currentX ? 1 : -1;
+            for (const otherBlock of document.querySelectorAll('.block')) {
+                for (let x = currentX + step; x !== newX + step; x += step) {
+                    if (checkCollision(x, currentY, width, height, otherBlock)) {
+                        return false;
+                    }
+                }
             }
         }
+    
+        if (newY !== currentY) {
+            const step = newY > currentY ? 1 : -1;
+            for (const otherBlock of document.querySelectorAll('.block')) {
+                for (let y = currentY + step; y !== newY + step; y += step) {
+                    if (checkCollision(currentX, y, width, height, otherBlock)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         return true;
+    }
+
+    function checkCollision(newX, newY, width, height, otherBlock) {
+        if (selectedBlock === otherBlock) {
+            return false;
+        }
+
+        const otherX = parseInt(otherBlock.dataset.x);
+        const otherY = parseInt(otherBlock.dataset.y);
+        const otherWidth = parseInt(otherBlock.dataset.width);
+        const otherHeight = parseInt(otherBlock.dataset.height);
+
+        if (
+            newX < otherX + otherWidth &&
+            newX + width > otherX &&
+            newY < otherY + otherHeight &&
+            newY + height > otherY
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     function updateProgressBar() {
