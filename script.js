@@ -111,7 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedBlock.dataset.x === '4') {
                 if (totalSeconds <= 15) {
                     stopTimer();
-                    // alert(`Поздравляем! Ваше время ${totalSeconds} секунд!\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`);
+                    const msg = translate(
+                        `Поздравляем! Ваше время ${totalSeconds} секунд!\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
+                        `Congratulations! Your time is ${totalSeconds} seconds!\nMake a screenshot and send it to the telegram channel to participate in the draw!`
+                    );
+                    alert(msg);
                 }
                 stopTimer();
             }
@@ -209,13 +213,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buttonGift = document.querySelector('.gift');
     buttonGift.addEventListener('click', () => {
-        const htmlLang = document.documentElement.lang;
-        const msg = htmlLang === 'ru' ?
-            'Разыгрываем ключи из игры Riding Extreme 3D! Подробности в телеграм-канале.' :
-            'We are giving away keys from the game Riding Extreme 3D! Details in the telegram channel.';
+        const msg = translate(
+            'Разыгрываем ключи из игры Riding Extreme 3D! Подробности в телеграм-канале.',
+            'We are giving away keys from the game Riding Extreme 3D! Details in the telegram channel.'
+        );
         alert(msg);
     });
 
     // Устанавливаем скорость воспроизведения
     document.getElementById('myVideo').playbackRate = 0.75;
+
+    function translate(ru, en) {
+        const htmlLang = document.documentElement.lang;
+        return htmlLang === 'ru' ? ru : en;
+    }
 });
