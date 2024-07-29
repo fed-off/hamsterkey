@@ -56,9 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalSeconds = 0;
     const timerValue = document.querySelector('.timer__value');
     let timerInterval;
+    let startTime;
+    let endTime;
 
     // Обновление таймера каждую секунду
     function startTimer() {
+        startTime = Date.now();
         timerInterval = setInterval(() => {
             totalSeconds++;
             const minutes = Math.floor(totalSeconds / 60);
@@ -74,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const GREEN = 'rgba(0, 254, 100, 0.2)';
         const RED = 'rgba(252, 20, 18, 0.2)';
         const WIN_TIME = 30;
+
+        endTime = Date.now();
+
         const timeResultSeconds = (+timerValue.textContent.slice(-2));
         const timeResultMinutes = (+timerValue.textContent.slice(0, 2));
         const timeResult = timeResultMinutes ? WIN_TIME + 1 : timeResultSeconds;
@@ -110,9 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedBlock.dataset.x === '4') {
                 if (totalSeconds <= 15) {
                     stopTimer();
+                    const resultTime = formatResultTime();
                     const msg = translate(
-                        `Поздравляем! Ваше время ${totalSeconds} секунд!\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
-                        `Congratulations! Your time is ${totalSeconds} seconds!\nMake a screenshot and send it to the telegram channel to participate in the draw!`
+                        `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
+                        `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
                     );
                     alert(msg);
                 }
@@ -122,6 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedBlock) {
             selectedBlock = null;
         }
+    }
+
+    function formatResultTime() {
+        const totalMilliseconds = endTime - startTime;
+        const minutes = Math.floor(totalMilliseconds / 60000);
+        const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
+        const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
+        return `${formatTime(minutes)}:${formatTime(seconds)}.${formatTime(milliseconds)}`;
     }
 
     function drag(e) {
