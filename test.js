@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function stopDrag() {
+    async function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
             selectedBlock.dataset.x === '4') {
                 if (totalSeconds <= 55) {
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
                         `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
                     );
-                    const rewardKey = getBikeKey();
+                    const rewardKey = await getBikeKey();
                     if (rewardKey) {
                         msg = translate(
                             `Поздравляем! Вы выиграли ключ: ${rewardKey}.`,
@@ -285,15 +285,33 @@ document.addEventListener('DOMContentLoaded', () => {
         return window.yaCounter97937022.getClientID();
     }
 
-    function getBikeKey() {
-        const clientId = '123';//getClientId();
-        return fetch(`https://api.hamsterkey.online/bike?client=${clientId}`)
-            .then(response => {
-                if (!response.ok) {
-                    console.warn('Failed to get bike key:', response.status);
-                    return null;
-                }
-                return response.json().then(data => data.key);
-            });
+    // function getBikeKey() {
+    //     const clientId = '123';//getClientId();
+    //     return fetch(`https://api.hamsterkey.online/bike?client=${clientId}`)
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 console.warn('Failed to get bike key:', response.status);
+    //                 return null;
+    //             }
+    //             return response.json().then(data => data.key);
+    //         });
+    // }
+
+    async function getBikeKey() {
+        const clientId = getClientId();
+        try {
+            const response = await fetch(`https://api.hamsterkey.online/bike?client=${clientId}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to get bike key:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            return data.key;
+        } catch (error) {
+            console.error('Error fetching bike key:', error);
+            return null;
+        }
     }
+    
 });
