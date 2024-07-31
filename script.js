@@ -125,8 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const rewardKey = await getBikeKey();
                     if (rewardKey) {
                         msg = translate(
-                            `Поздравляем! Вы выиграли ключ: ${rewardKey}.`,
-                            `Congratulations! You won a key: ${resultTime}.`
+                            `Поздравляем! Вы выиграли ключ: ${rewardKey}`,
+                            `Congratulations! You won a key: ${resultTime}`
                         );
                     }
                     alert(msg);
