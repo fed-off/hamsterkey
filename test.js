@@ -1,18 +1,18 @@
 const gridSize = 6;
 let blockSize;
 const blocks = [
-    { id: 'red1', x: 2, y: 0, width: 1, height: 2, color: 'red' },
-    { id: 'red2', x: 1, y: 3, width: 1, height: 3, color: 'red' },
+    { id: 'red1', x: 0, y: 0, width: 1, height: 3, color: 'red' },
+    { id: 'red2', x: 0, y: 4, width: 1, height: 2, color: 'red' },
     { id: 'red3', x: 2, y: 3, width: 1, height: 2, color: 'red' },
-    { id: 'red4', x: 4, y: 1, width: 1, height: 2, color: 'red' },
+    { id: 'red4', x: 3, y: 1, width: 1, height: 3, color: 'red' },
     { id: 'red5', x: 5, y: 1, width: 1, height: 2, color: 'red' },
-    { id: 'red6', x: 5, y: 3, width: 1, height: 3, color: 'red' },
-    { id: 'green1', x: 0, y: 1, width: 2, height: 1, color: 'green' },
-    { id: 'green2', x: 0, y: 2, width: 2, height: 1, color: 'green' },
-    { id: 'green3', x: 2, y: 5, width: 3, height: 1, color: 'green' },
-    { id: 'green4', x: 3, y: 3, width: 2, height: 1, color: 'green' },
-    { id: 'green5', x: 4, y: 0, width: 2, height: 1, color: 'green' },
-    { id: 'key', x: 2, y: 2, width: 2, height: 1, color: 'key' }
+    { id: 'red6', x: 5, y: 4, width: 1, height: 2, color: 'red' },
+    { id: 'green1', x: 1, y: 5, width: 2, height: 1, color: 'green' },
+    { id: 'green2', x: 3, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'green3', x: 3, y: 4, width: 2, height: 1, color: 'green' },
+    { id: 'green4', x: 4, y: 3, width: 2, height: 1, color: 'green' },
+    // { id: 'green5', x: 4, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'key', x: 1, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
 
@@ -115,10 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
             selectedBlock.dataset.x === '4') {
-                if (totalSeconds <= 55) {
+                if (totalSeconds <= 15) {
                     stopTimer();
                     const resultTime = formatResultTime();
-                    const msg = translate(
+                    let msg = translate(
                         `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
                         `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
                     );
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateProgressBar() {
         const now = new Date();
-        const targetTime = new Date(Date.UTC(2024, 6, 31, 20));
+        const targetTime = new Date(Date.UTC(2024, 7, 1, 20));
 
         const startOfDay = new Date(targetTime);
         startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
@@ -286,14 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getBikeKey() {
-        const clientId = getClientId();
+        const clientId = '123';//getClientId();
         return fetch(`https://api.hamsterkey.online/bike?client=${clientId}`)
             .then(response => {
                 if (!response.ok) {
-                    console.warn('Failed to get bike key:', response.status, response.json().error);
+                    console.warn('Failed to get bike key:', response.status);
                     return null;
                 }
-                return response.json().key;
+                return response.json().then(data => data.key);
             });
     }
 });
