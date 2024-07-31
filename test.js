@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
             selectedBlock.dataset.x === '4') {
-                if (totalSeconds <= 15) {
+                if (totalSeconds <= 55) {
                     stopTimer();
                     const resultTime = formatResultTime();
                     let msg = translate(
