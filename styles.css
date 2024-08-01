@@ -352,6 +352,95 @@ animation-iteration-count: infinite; /* Бесконечное повторен�
 }
 
 
+/* Стили для модального окна */
+.modal {
+    display: block; /* Скрыть модальное окно по умолчанию */
+    position: fixed; /* Оставить модальное окно на одном месте */
+    z-index: 1; /* Разместить модальное окно поверх остальных элементов */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Включить прокрутку, если содержимое больше окна */
+    background-color: rgba(0, 0, 0, 0.5); /* Черный фон с прозрачностью */
+}
+
+/* Стили для содержимого модального окна */
+.modal-content {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    background-color: rgba(200,200,200, 0.85);
+    margin: 15% auto; /* Центрирование модального окна */
+    padding: 20px;
+    padding-bottom: 40px;
+    border: 1px solid #888;
+    width: 300px; /* Ширина модального окна */
+    font-family: 'Courier New', Courier, monospace;
+    color: #111;
+}
+
+.modal h2 {
+    margin: 0;
+    font-size: 30px;
+
+}
+
+.modal p {
+    margin: 0;
+    text-align: center;
+    padding: 16px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copy {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    font-family: inherit;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+}
+
+/* Стили для кнопки закрытия */
+.close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 44px;
+    line-height: 44px;
+    font-family: inherit;
+    color: inherit;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 .hidden {
     display: none;
