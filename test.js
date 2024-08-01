@@ -17,6 +17,12 @@ const blocks = [
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    const giftModal = document.querySelector('.modal');
+    const closeButton = giftModal.querySelector('.close');
+    const copyButton = giftModal.querySelector('.copy');
+    const modalText = giftModal.querySelector('p');
+
     const grid = document.querySelector('.grid');
     const viewPortSize = document.documentElement.clientWidth;
     if (viewPortSize < 768) {
@@ -114,22 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
-            selectedBlock.dataset.x === '4') {
+            selectedBlock.dataset.x === '3') {
                 if (totalSeconds <= 15) {
                     stopTimer();
                     const resultTime = formatResultTime();
-                    let msg = translate(
-                        `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
-                        `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
-                    );
                     const rewardKey = await getBikeKey();
                     if (rewardKey) {
-                        msg = translate(
-                            `Поздравляем! Вы выиграли ключ: ${rewardKey}.`,
-                            `Congratulations! You won a key: ${resultTime}.`
+                        showGiftModal(rewardKey);
+                    } else {
+                        const msg = translate(
+                            `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
+                            `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
                         );
+                        alert(msg);
                     }
-                    alert(msg);
                 }
                 stopTimer();
             }
@@ -254,13 +258,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Инициализируем прогресс-бар при загрузке страницы
     updateProgressBar();
-    
+
+    function showGiftModal(key) {
+        modalText.textContent = key;
+        giftModal.classList.remove('hidden');
+    }
 
     const buttonRefresh = document.querySelector('.refresh');
     buttonRefresh.addEventListener('click', () => {
         resetTimer();
         resetGrid();
-        // location.reload();
+    });
+
+    closeButton.addEventListener('click', () => {
+        giftModal.classList.add('hidden');
+    });
+
+    copyButton.addEventListener('click', (event) => {
+        const text = giftModal.querySelector('p').textContent;
+        navigator.clipboard.writeText(text);
+        event.target.textContent = translate('Скопировано!', 'Copied!');
+        event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
     });
 
     const buttonGift = document.querySelector('.gift');
@@ -273,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Устанавливаем скорость воспроизведения
-    document.getElementById('myVideo').playbackRate = 0.75;
+    document.getElementById('myVideo').playbackRate = 1.0;
 
     function translate(ru, en) {
         const htmlLang = document.documentElement.lang;
@@ -284,18 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // using Yandex.Metrika
         return window.yaCounter97937022.getClientID();
     }
-
-    // function getBikeKey() {
-    //     const clientId = '123';//getClientId();
-    //     return fetch(`https://api.hamsterkey.online/bike?client=${clientId}`)
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 console.warn('Failed to get bike key:', response.status);
-    //                 return null;
-    //             }
-    //             return response.json().then(data => data.key);
-    //         });
-    // }
 
     async function getBikeKey() {
         const clientId = getClientId();
