@@ -124,8 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (totalSeconds <= 30) {
                     stopTimer();
                     const resultTime = formatResultTime();
-                    // const rewardKey = await getBikeKey();
-                    const rewardKey = false;
+                    const rewardKey = await getBikeKey();
+                    // const rewardKey = false;
                     if (rewardKey) {
                         showGiftModal(rewardKey);
                     } else {
