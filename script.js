@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopTimer() {
         const GREEN = 'rgba(0, 254, 100, 0.2)';
         const RED = 'rgba(252, 20, 18, 0.2)';
-        const WIN_TIME = 30;
+        const WIN_TIME = 60;
 
         endTime = Date.now();
 
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
             selectedBlock.dataset.x === '4') {
-                if (totalSeconds <= 15) {
+                if (totalSeconds <= 30) {
                     stopTimer();
                     const resultTime = formatResultTime();
                     const rewardKey = await getBikeKey();
