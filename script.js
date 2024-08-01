@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
                             `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
                         );
-                        alert(msg);
+                        // alert(msg);
                     }
                 }
                 stopTimer();
@@ -285,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonGift = document.querySelector('.gift');
     buttonGift.addEventListener('click', () => {
         const msg = translate(
-            'Разыгрываем ключи из игры Riding Extreme 3D! Подробности в телеграм-канале.',
-            'We are giving away keys from the game Riding Extreme 3D! Details in the telegram channel.'
+            'Пройди игру за 30 секунд и получи ключ из Riding Extreme 3D! Доступен один ключ в день.',
+            'Complete the game in 30 seconds and get a key from Riding Extreme 3D! One key per day.'
         );
         alert(msg);
     });
