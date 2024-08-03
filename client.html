@@ -25,8 +25,11 @@
 <body>
   <h1>Client ID</h1>
   <p id="client-id"></p>
+  <button>Get my ID</button>
   <script>
-    document.getElementById('client-id').innerText = window.yaCounter97937022.getClientID();
+    document.querySelector('button').addEventListener('click', () => {
+      document.getElementById('client-id').innerText = window.yaCounter97937022.getClientID();
+    });
   </script>
 </body>
 </html>
