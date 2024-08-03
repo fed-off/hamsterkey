@@ -17,6 +17,12 @@ const blocks = [
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    let quests = [];
+    getQuests().then(data => {
+        quests = data;
+        console.log(quests);
+    });
+    
 
     const giftModal = document.querySelector('#gift-modal');
     const questsModal = document.querySelector('#quests-modal');
@@ -328,6 +334,25 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching bike key:', error);
             return null;
+        }
+    }
+
+    async function getQuests() {
+        // const clientId = getClientId();
+        const clientId = 1;
+        try {
+            // const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
+            const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to get quests:', response.status, errorData.error);
+                return [];
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            return [];
         }
     }
     
