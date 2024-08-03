@@ -67,7 +67,9 @@
             <section class="content-wrapper">
                 <h2 class="visually-hidden">Мини игра без ограничения по времени</h2>
                 <div class="timer">
-                    <div class="gift animate">🎁</div>
+                    <div class="gift animate">
+                        <img src="images/quest.png" alt="Quests" width="10" height="30">
+                    </div>
                     <p class="timer__text">
                         <output class="timer__value">00:00</output>
                     </p>
@@ -102,7 +104,7 @@
         </div>
 
         <!-- Модальное окно с призом -->
-        <div id="gift-modal" class="modal">
+        <div id="gift-modal" class="modal hidden">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>Дарим ключ</h2>
@@ -114,7 +116,7 @@
         </div>
 
         <!-- Модальное окно с заданиями -->
-        <div id="quests-modal" class="modal">
+        <div id="quests-modal" class="modal hidden">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>Задания <span>0/2</span></h2>

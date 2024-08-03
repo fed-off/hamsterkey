@@ -18,8 +18,10 @@ const blocks = [
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const giftModal = document.querySelector('.modal');
-    const closeButton = giftModal.querySelector('.close');
+    const giftModal = document.querySelector('#gift-modal');
+    const questsModal = document.querySelector('#quests-modal');
+    const closeGiftModalButton = giftModal.querySelector('.close');
+    const closeQuestsModalButton = questsModal.querySelector('.close');
     const copyButton = giftModal.querySelector('.copy');
     const modalText = giftModal.querySelector('p');
 
@@ -265,16 +267,26 @@ document.addEventListener('DOMContentLoaded', () => {
         giftModal.classList.remove('hidden');
     }
 
+    function showQuestsModal() {
+        questsModal.classList.remove('hidden');
+    }
+
     const buttonRefresh = document.querySelector('.refresh');
     buttonRefresh.addEventListener('click', () => {
         resetTimer();
         resetGrid();
     });
 
-    closeButton.addEventListener('click', () => {
-        giftModal.classList.add('hidden');
+    closeGiftModalButton.addEventListener('click', (event) => {
+        const closestModal = event.target.closest('.modal');
+        closestModal.classList.add('hidden');
         copyButton.textContent = translate('Копировать', 'Copy');
         copyButton.style.backgroundColor = "";
+    });
+
+    closeQuestsModalButton.addEventListener('click', (event) => {
+        const closestModal = event.target.closest('.modal');
+        closestModal.classList.add('hidden');
     });
 
     copyButton.addEventListener('click', (event) => {
@@ -286,11 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buttonGift = document.querySelector('.gift');
     buttonGift.addEventListener('click', () => {
-        const msg = translate(
-            'Пройди игру за 30 секунд и получи ключ из Riding Extreme 3D! Доступен один ключ в день.',
-            'Complete the game in 30 seconds and get a key from Riding Extreme 3D! One key per day.'
-        );
-        alert(msg);
+        showQuestsModal();
     });
 
     // Устанавливаем скорость воспроизведения
