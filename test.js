@@ -17,12 +17,6 @@ const blocks = [
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    let quests = [];
-    getQuests().then(data => {
-        quests = data;
-        console.log(quests);
-    });
-    
 
     const giftModal = document.querySelector('#gift-modal');
     const questsModal = document.querySelector('#quests-modal');
@@ -30,6 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeQuestsModalButton = questsModal.querySelector('.close');
     const copyButton = giftModal.querySelector('.copy');
     const modalText = giftModal.querySelector('p');
+    const questList = questsModal.querySelector('.quest-list');
+    const questItemTemplate = document.querySelector('#quest-item-template');
+
+    let quests = [];
+    getQuests().then(data => {
+        quests = data;
+        console.log(quests);
+        quests.forEach(quest => {
+            const item = questItemTemplate.content.cloneNode(true);
+            // item.querySelector('.quest-item__title').textContent = translate(quest.title_ru, quest.title_en);
+            item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
+            questList.appendChild(item);
+        });
+    });
 
     const grid = document.querySelector('.grid');
     const viewPortSize = document.documentElement.clientWidth;
