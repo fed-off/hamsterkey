@@ -1,17 +1,17 @@
 const gridSize = 6;
 let blockSize;
 const blocks = [
-    { id: 'red1', x: 0, y: 0, width: 1, height: 3, color: 'red' },
+    { id: 'red1', x: 0, y: 2, width: 1, height: 2, color: 'red' },
     { id: 'red2', x: 0, y: 4, width: 1, height: 2, color: 'red' },
-    { id: 'red3', x: 2, y: 3, width: 1, height: 2, color: 'red' },
-    { id: 'red4', x: 3, y: 1, width: 1, height: 3, color: 'red' },
-    { id: 'red5', x: 5, y: 1, width: 1, height: 2, color: 'red' },
-    { id: 'red6', x: 5, y: 4, width: 1, height: 2, color: 'red' },
+    { id: 'red3', x: 1, y: 3, width: 1, height: 2, color: 'red' },
+    { id: 'red4', x: 3, y: 1, width: 1, height: 2, color: 'red' },
+    { id: 'red5', x: 3, y: 4, width: 1, height: 2, color: 'red' },
+    { id: 'red6', x: 5, y: 2, width: 1, height: 2, color: 'red' },
     { id: 'green1', x: 1, y: 5, width: 2, height: 1, color: 'green' },
-    { id: 'green2', x: 3, y: 0, width: 2, height: 1, color: 'green' },
-    { id: 'green3', x: 3, y: 4, width: 2, height: 1, color: 'green' },
-    { id: 'green4', x: 4, y: 3, width: 2, height: 1, color: 'green' },
-    // { id: 'green5', x: 4, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'green2', x: 2, y: 3, width: 3, height: 1, color: 'green' },
+    { id: 'green3', x: 3, y: 0, width: 3, height: 1, color: 'green' },
+    { id: 'green4', x: 4, y: 1, width: 2, height: 1, color: 'green' },
+    { id: 'green5', x: 4, y: 4, width: 2, height: 1, color: 'green' },
     { id: 'key', x: 1, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopTimer() {
         const GREEN = 'rgba(0, 254, 100, 0.2)';
         const RED = 'rgba(252, 20, 18, 0.2)';
-        const WIN_TIME = 30;
+        const WIN_TIME = 60;
 
         endTime = Date.now();
 
@@ -121,10 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function stopDrag() {
         if (selectedBlock.dataset.id === 'key' &&
             selectedBlock.dataset.x === '4') {
-                if (totalSeconds <= 15) {
+                if (totalSeconds <= 30) {
                     stopTimer();
                     const resultTime = formatResultTime();
                     const rewardKey = await getBikeKey();
+                    // const rewardKey = false;
                     if (rewardKey) {
                         showGiftModal(rewardKey);
                     } else {
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
                             `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
                         );
-                        alert(msg);
+                        // alert(msg);
                     }
                 }
                 stopTimer();
@@ -241,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateProgressBar() {
         const now = new Date();
-        const targetTime = new Date(Date.UTC(2024, 7, 1, 20));
+        const targetTime = new Date(Date.UTC(2024, 7, 3, 20));
 
         const startOfDay = new Date(targetTime);
         startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
@@ -284,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonGift = document.querySelector('.gift');
     buttonGift.addEventListener('click', () => {
         const msg = translate(
-            'Разыгрываем ключи из игры Riding Extreme 3D! Подробности в телеграм-канале.',
-            'We are giving away keys from the game Riding Extreme 3D! Details in the telegram channel.'
+            'Пройди игру за 30 секунд и получи ключ из Riding Extreme 3D! Доступен один ключ в день.',
+            'Complete the game in 30 seconds and get a key from Riding Extreme 3D! One key per day.'
         );
         alert(msg);
     });
