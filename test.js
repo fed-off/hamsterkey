@@ -273,6 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeButton.addEventListener('click', () => {
         giftModal.classList.add('hidden');
+        copyButton.textContent = translate('Копировать', 'Copy');
+        copyButton.style.backgroundColor = "";
     });
 
     copyButton.addEventListener('click', (event) => {
