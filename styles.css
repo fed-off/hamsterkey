@@ -451,6 +451,7 @@ animation-delay: -1.6s;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-grow: 0;
     font-size: 44px;
     line-height: 44px;
     font-family: inherit;
