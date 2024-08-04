@@ -335,6 +335,7 @@ animation-delay: -1.6s;
 .quest-counter {
     position: absolute;
     top: -10px;
+    /* top: 16px; */
     right: -15px;
     display: flex;
     justify-content: center;

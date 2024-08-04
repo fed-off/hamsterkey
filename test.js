@@ -26,11 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalText = giftModal.querySelector('p');
     const questList = questsModal.querySelector('.quest-list');
     const questItemTemplate = document.querySelector('#quest-item-template');
+    const questCounterTag = document.querySelector('.quest-counter');
+    const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
 
     let quests = [];
     getQuests().then(data => {
         quests = data;
         console.log(quests);
+        updateQuestCounter();
         quests.forEach(quest => {
             const item = questItemTemplate.content.cloneNode(true);
             // item.querySelector('.quest-item__title').textContent = translate(quest.title_ru, quest.title_en);
@@ -275,6 +278,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Инициализируем прогресс-бар при загрузке страницы
     updateProgressBar();
+
+    function updateQuestCounter() {
+        const totalQuests = quests.length;
+        const doneQuests = quests.filter(quest => quest.done).length;
+        const availableQuests = quests.filter(quest => !quest.done).length;
+        questCounterTag.textContent = `${availableQuests}`;
+        questsModalCounter.textContent = `${doneQuests}/${totalQuests}`;
+    }
 
     function showGiftModal(key) {
         modalText.textContent = key;
