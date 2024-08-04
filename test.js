@@ -372,7 +372,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function getQuests() {
         const clientId = await getClientId();
-        alert(clientId);
         try {
             const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
             // const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
