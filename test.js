@@ -133,8 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     async function stopDrag() {
-        // if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '4') {
-        if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '0') {
+        if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '4') {
             stopTimer();
             const milliseconds = getResultTimeInMilliseconds();
             sendMiniGameResult(milliseconds);
