@@ -431,6 +431,21 @@ animation-delay: -1.6s;
     cursor: pointer;
 }
 
+.modal__hamster-link {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    font-family: inherit;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    background-color: #f1f1f1;
+    /* margin-top: 20px; */
+}
+
 /* Стили для кнопки закрытия */
 .close {
     display: flex;
@@ -506,13 +521,13 @@ p.quest-text {
     background-image: url("images/link.png");
 }
 
-/* .quest-button--done {
+.quest-button--done {
     background-color: rgba(10, 250, 100, 0.7);
-} */
+}
 
-.quest-button:disabled {
-    background-color: rgba(10, 250, 100, 0.7);
-    cursor: default;
+.quest-button--done::before {
+    background-image: url("key.svg");
+    transform: rotate(135deg);
 }
 
 .hidden {

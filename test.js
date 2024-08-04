@@ -279,10 +279,19 @@ document.addEventListener('DOMContentLoaded', () => {
             item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
             const button = item.querySelector('.quest-button');
             if (quest.done) {
-                button.disabled = true;
+                button.classList.add('quest-button--done');
             } else if (quest.type === 'link') {
                 button.classList.add('quest-button--link');
             }
+            button.addEventListener('click', async (event) => {
+                const reward = await sendQuestValidate(quest.id);
+                if (reward !== null) {
+                    showGiftModal(reward);
+                    quest.done = true;
+                    updateQuestCounter();
+                    event.target.classList.add('quest-button--done');
+                }
+            });
             questList.appendChild(item);
         });
     }
@@ -357,11 +366,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function getQuests() {
-        // const clientId = getClientId();
-        const clientId = 1;
+        const clientId = getClientId();
         try {
-            // const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
-            const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
+            const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
+            // const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
             if (!response.ok) {
                 const errorData = await response.json();
                 console.warn('Failed to get quests:', response.status, errorData.error);
@@ -379,8 +387,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const clientId = getClientId();
         const body = JSON.stringify({ client: clientId, milliseconds });
         try {
-            // const response = await fetch('https://api.hamsterkey.online/minigame', {
-            const response = await fetch('http://localhost:3000/minigame', {
+            const response = await fetch('https://api.hamsterkey.online/minigame', {
+            // const response = await fetch('http://localhost:3000/minigame', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -396,6 +404,31 @@ document.addEventListener('DOMContentLoaded', () => {
             return data;
         } catch (error) {
             console.error('Error sending minigame result:', error);
+            return null;
+        }
+    }
+
+    async function sendQuestValidate(questId) {
+        const clientId = getClientId();
+        const body = JSON.stringify({ client: clientId, quest: questId });
+        try {
+            const response = await fetch('https://api.hamsterkey.online/quests', {
+            // const response = await fetch('http://localhost:3000/quests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to send quest validation:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            return data.key;
+        } catch (error) {
+            console.error('Error sending quest validation:', error);
             return null;
         }
     }
