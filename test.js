@@ -133,33 +133,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     async function stopDrag() {
-        if (selectedBlock.dataset.id === 'key' &&
-            selectedBlock.dataset.x === '4') {
-                if (totalSeconds <= 30) {
-                    stopTimer();
-                    const resultTime = formatResultTime();
-                    const rewardKey = await getBikeKey();
-                    // const rewardKey = false;
-                    if (rewardKey) {
-                        showGiftModal(rewardKey);
-                    } else {
-                        const msg = translate(
-                            `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
-                            `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
-                        );
-                        // alert(msg);
-                    }
-                }
-                stopTimer();
-            }
+        // if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '4') {
+        if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '0') {
+            stopTimer();
+            const milliseconds = getResultTimeInMilliseconds();
+            sendMiniGameResult(milliseconds);
+        }
 
         if (selectedBlock) {
             selectedBlock = null;
         }
     }
 
+    function getResultTimeInMilliseconds() {
+        return endTime - startTime;
+    }
+
     function formatResultTime() {
-        const totalMilliseconds = endTime - startTime;
+        const totalMilliseconds = getResultTimeInMilliseconds();
         const minutes = Math.floor(totalMilliseconds / 60000);
         const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
         const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
@@ -383,5 +374,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return [];
         }
     }
-    
+
+    async function sendMiniGameResult(milliseconds) {
+        const clientId = getClientId();
+        const body = JSON.stringify({ client: clientId, milliseconds });
+        try {
+            // const response = await fetch('https://api.hamsterkey.online/minigame', {
+            const response = await fetch('http://localhost:3000/minigame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to send minigame result:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error sending minigame result:', error);
+            return null;
+        }
+    }
+
 });
