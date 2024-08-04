@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
 
     let quests = [];
+    let clientId = null;
     // getQuests().then(data => {
     //     quests = data;
     //     console.log(quests);
@@ -343,14 +344,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function getClientId() {
+        if (clientId) {
+            return clientId;
+        }
         // using Yandex.Metrika
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 20; i++) {
             if (window.yaCounter97937022) {
-                break;
+                clientId = window.yaCounter97937022.getClientID();
+                return clientId;
             }
             await new Promise(resolve => setTimeout(resolve, 200));
         }
-        return window.yaCounter97937022.getClientID();
+        // fallback to ip
+        try {
+            const response = await fetch('https://api.hamsterkey.online/ip');
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to get client id:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            clientId = data.ip;
+            return clientId;
+        } catch (error) {
+            console.error('Error fetching client id:', error);
+            return null;
+        }
     }
 
     async function getBikeKey() {
