@@ -35,7 +35,7 @@
     document.querySelector('.quests-button').addEventListener('click', async () => {
       const resp = await fetch('https://api.hamsterkey.online/quests');
       const data = await resp.json();
-      document.getElementById('quests').innerText = data;
+      document.getElementById('quests').innerText = JSON.stringify(data, null, 2);
     });
   </script>
 </body>
