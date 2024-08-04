@@ -16,7 +16,7 @@ const blocks = [
 ];
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
     const giftModal = document.querySelector('#gift-modal');
     const questsModal = document.querySelector('#quests-modal');
@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
 
     let quests = [];
-    getQuests().then(data => {
-        quests = data;
-        console.log(quests);
-        updateQuestCounter();
-        addQuestsToModal();
-    });
+    // getQuests().then(data => {
+    //     quests = data;
+    //     console.log(quests);
+    //     updateQuestCounter();
+    //     addQuestsToModal();
+    // });
 
     const grid = document.querySelector('.grid');
     const viewPortSize = document.documentElement.clientWidth;
@@ -433,4 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    quests = await getQuests();
+    updateQuestCounter();
+    addQuestsToModal();
 });
