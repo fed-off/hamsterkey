@@ -343,13 +343,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         return htmlLang === 'ru' ? ru : en;
     }
 
-    function getClientId() {
+    async function getClientId() {
         // using Yandex.Metrika
+        for (let i = 0; i < 10; i++) {
+            if (!window.yaCounter97937022) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        }
         return window.yaCounter97937022.getClientID();
     }
 
     async function getBikeKey() {
-        const clientId = getClientId();
+        const clientId = await getClientId();
         try {
             const response = await fetch(`https://api.hamsterkey.online/bike?client=${clientId}`);
             if (!response.ok) {
@@ -366,7 +371,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function getQuests() {
-        const clientId = getClientId();
+        const clientId = await getClientId();
         alert(clientId);
         try {
             const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
@@ -385,7 +390,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function sendMiniGameResult(milliseconds) {
-        const clientId = getClientId();
+        const clientId = await getClientId();
         const body = JSON.stringify({ client: clientId, milliseconds });
         try {
             const response = await fetch('https://api.hamsterkey.online/minigame', {
@@ -410,7 +415,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function sendQuestValidate(questId) {
-        const clientId = getClientId();
+        const clientId = await getClientId();
         const body = JSON.stringify({ client: clientId, quest: questId });
         try {
             const response = await fetch('https://api.hamsterkey.online/quests', {
