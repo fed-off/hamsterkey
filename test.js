@@ -34,12 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quests = data;
         console.log(quests);
         updateQuestCounter();
-        quests.forEach(quest => {
-            const item = questItemTemplate.content.cloneNode(true);
-            // item.querySelector('.quest-item__title').textContent = translate(quest.title_ru, quest.title_en);
-            item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
-            questList.appendChild(item);
-        });
+        addQuestsToModal();
     });
 
     const grid = document.querySelector('.grid');
@@ -285,6 +280,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const availableQuests = quests.filter(quest => !quest.done).length;
         questCounterTag.textContent = `${availableQuests}`;
         questsModalCounter.textContent = `${doneQuests}/${totalQuests}`;
+    }
+
+    function addQuestsToModal() {
+        quests.forEach(quest => {
+            const item = questItemTemplate.content.cloneNode(true);
+            item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
+            const button = item.querySelector('.quest-button');
+            if (quest.done) {
+                button.disabled = true;
+            } else if (quest.type === 'link') {
+                button.classList.add('quest-button--link');
+            }
+            questList.appendChild(item);
+        });
     }
 
     function showGiftModal(key) {
