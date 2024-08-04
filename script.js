@@ -344,10 +344,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function getClientId() {
         // using Yandex.Metrika
-        for (let i = 0; i < 20; i++) {
-            if (!window.yaCounter97937022) {
-                await new Promise(resolve => setTimeout(resolve, 200));
+        for (let i = 0; i < 100; i++) {
+            if (window.yaCounter97937022) {
+                break;
             }
+            await new Promise(resolve => setTimeout(resolve, 200));
         }
         return window.yaCounter97937022.getClientID();
     }
