@@ -25,10 +25,17 @@
 <body>
   <h1>Client ID</h1>
   <p id="client-id"></p>
-  <button>Get my ID</button>
+  <button class="client-id-button">Get my ID</button>
+  <p id="quests">Quests will be here</p>
+  <button class="quests-button">Get quests</button>
   <script>
     document.querySelector('button').addEventListener('click', () => {
       document.getElementById('client-id').innerText = window.yaCounter97937022.getClientID();
+    });
+    document.querySelector('.quests-button').addEventListener('click', async () => {
+      const resp = await fetch('https://api.hamsterkey.online/quests');
+      const data = await resp.json();
+      document.getElementById('quests').innerText = data;
     });
   </script>
 </body>
