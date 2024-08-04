@@ -16,12 +16,26 @@ const blocks = [
 ];
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
-    const giftModal = document.querySelector('.modal');
-    const closeButton = giftModal.querySelector('.close');
+    const giftModal = document.querySelector('#gift-modal');
+    const questsModal = document.querySelector('#quests-modal');
+    const closeGiftModalButton = giftModal.querySelector('.close');
+    const closeQuestsModalButton = questsModal.querySelector('.close');
     const copyButton = giftModal.querySelector('.copy');
     const modalText = giftModal.querySelector('p');
+    const questList = questsModal.querySelector('.quest-list');
+    const questItemTemplate = document.querySelector('#quest-item-template');
+    const questCounterTag = document.querySelector('.quest-counter');
+    const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
+
+    let quests = [];
+    // getQuests().then(data => {
+    //     quests = data;
+    //     console.log(quests);
+    //     updateQuestCounter();
+    //     addQuestsToModal();
+    // });
 
     const grid = document.querySelector('.grid');
     const viewPortSize = document.documentElement.clientWidth;
@@ -119,33 +133,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     async function stopDrag() {
-        if (selectedBlock.dataset.id === 'key' &&
-            selectedBlock.dataset.x === '4') {
-                if (totalSeconds <= 30) {
-                    stopTimer();
-                    const resultTime = formatResultTime();
-                    const rewardKey = await getBikeKey();
-                    // const rewardKey = false;
-                    if (rewardKey) {
-                        showGiftModal(rewardKey);
-                    } else {
-                        const msg = translate(
-                            `Поздравляем! Ваше время ${resultTime}.\nСделайте скриншот и отправьте его в телеграм канал, чтобы поучаствовать в розыгрыше!`,
-                            `Congratulations! Your time is ${resultTime}.\nMake a screenshot and send it to the telegram channel to participate in the draw!`
-                        );
-                        // alert(msg);
-                    }
-                }
-                stopTimer();
-            }
+        if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '4') {
+            stopTimer();
+            const milliseconds = getResultTimeInMilliseconds();
+            sendMiniGameResult(milliseconds);
+        }
 
         if (selectedBlock) {
             selectedBlock = null;
         }
     }
 
+    function getResultTimeInMilliseconds() {
+        return endTime - startTime;
+    }
+
     function formatResultTime() {
-        const totalMilliseconds = endTime - startTime;
+        const totalMilliseconds = getResultTimeInMilliseconds();
         const minutes = Math.floor(totalMilliseconds / 60000);
         const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
         const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
@@ -260,9 +264,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Инициализируем прогресс-бар при загрузке страницы
     updateProgressBar();
 
+    function updateQuestCounter() {
+        const totalQuests = quests.length;
+        const doneQuests = quests.filter(quest => quest.done).length;
+        const availableQuests = quests.filter(quest => !quest.done).length;
+        questCounterTag.textContent = `${availableQuests}`;
+        questsModalCounter.textContent = `${doneQuests}/${totalQuests}`;
+    }
+
+    function addQuestsToModal() {
+        quests.forEach(quest => {
+            const item = questItemTemplate.content.cloneNode(true);
+            item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
+            const button = item.querySelector('.quest-button');
+            if (quest.done) {
+                button.classList.add('quest-button--done');
+            } else if (quest.type === 'link') {
+                button.classList.add('quest-button--link');
+            }
+            button.addEventListener('click', async (event) => {
+                const reward = await sendQuestValidate(quest.id);
+                if (reward !== null) {
+                    showGiftModal(reward);
+                    quest.done = true;
+                    updateQuestCounter();
+                    event.target.classList.add('quest-button--done');
+                }
+            });
+            questList.appendChild(item);
+        });
+    }
+
     function showGiftModal(key) {
         modalText.textContent = key;
         giftModal.classList.remove('hidden');
+    }
+
+    function showQuestsModal() {
+        questsModal.classList.remove('hidden');
     }
 
     const buttonRefresh = document.querySelector('.refresh');
@@ -271,8 +310,16 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGrid();
     });
 
-    closeButton.addEventListener('click', () => {
-        giftModal.classList.add('hidden');
+    closeGiftModalButton.addEventListener('click', (event) => {
+        const closestModal = event.target.closest('.modal');
+        closestModal.classList.add('hidden');
+        copyButton.textContent = translate('Копировать', 'Copy');
+        copyButton.style.backgroundColor = "";
+    });
+
+    closeQuestsModalButton.addEventListener('click', (event) => {
+        const closestModal = event.target.closest('.modal');
+        closestModal.classList.add('hidden');
     });
 
     copyButton.addEventListener('click', (event) => {
@@ -284,11 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buttonGift = document.querySelector('.gift');
     buttonGift.addEventListener('click', () => {
-        const msg = translate(
-            'Пройди игру за 30 секунд и получи ключ из Riding Extreme 3D! Доступен один ключ в день.',
-            'Complete the game in 30 seconds and get a key from Riding Extreme 3D! One key per day.'
-        );
-        alert(msg);
+        showQuestsModal();
     });
 
     // Устанавливаем скорость воспроизведения
@@ -299,13 +342,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return htmlLang === 'ru' ? ru : en;
     }
 
-    function getClientId() {
+    async function getClientId() {
         // using Yandex.Metrika
+        for (let i = 0; i < 20; i++) {
+            if (!window.yaCounter97937022) {
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+        }
         return window.yaCounter97937022.getClientID();
     }
 
     async function getBikeKey() {
-        const clientId = getClientId();
+        const clientId = await getClientId();
         try {
             const response = await fetch(`https://api.hamsterkey.online/bike?client=${clientId}`);
             if (!response.ok) {
@@ -320,5 +368,76 @@ document.addEventListener('DOMContentLoaded', () => {
             return null;
         }
     }
-    
+
+    async function getQuests() {
+        const clientId = await getClientId();
+        try {
+            const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
+            // const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to get quests:', response.status, errorData.error);
+                return [];
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            return [];
+        }
+    }
+
+    async function sendMiniGameResult(milliseconds) {
+        const clientId = await getClientId();
+        const body = JSON.stringify({ client: clientId, milliseconds });
+        try {
+            const response = await fetch('https://api.hamsterkey.online/minigame', {
+            // const response = await fetch('http://localhost:3000/minigame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to send minigame result:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error sending minigame result:', error);
+            return null;
+        }
+    }
+
+    async function sendQuestValidate(questId) {
+        const clientId = await getClientId();
+        const body = JSON.stringify({ client: clientId, quest: questId });
+        try {
+            const response = await fetch('https://api.hamsterkey.online/quests', {
+            // const response = await fetch('http://localhost:3000/quests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Failed to send quest validation:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            return data.key;
+        } catch (error) {
+            console.error('Error sending quest validation:', error);
+            return null;
+        }
+    }
+
+    quests = await getQuests();
+    updateQuestCounter();
+    addQuestsToModal();
 });

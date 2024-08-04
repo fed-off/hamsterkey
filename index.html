@@ -67,7 +67,10 @@
             <section class="content-wrapper">
                 <h2 class="visually-hidden">Мини игра без ограничения по времени</h2>
                 <div class="timer">
-                    <div class="gift animate">🎁</div>
+                    <div class="gift animate">
+                        <img class="" src="images/quest.png" alt="Quests" width="10" height="30">
+                        <span class="quest-counter"></span>
+                    </div>
                     <p class="timer__text">
                         <output class="timer__value">00:00</output>
                     </p>
@@ -101,18 +104,40 @@
             </div>
         </div>
 
-        <!-- Модальное окно -->
+        <!-- Модальное окно с призом -->
         <div id="gift-modal" class="modal hidden">
-            <!-- Содержимое модального окна -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Дарим ключ</h2>
+                    <h2>Награда</h2>
                     <button class="close">&times;</button>
                 </div>
                 <p>Что-то пошло не так</p>
                 <button class="copy">Скопировать</button>
+                <a class="modal__hamster-link" href="https://t.me/Hamster_kombat_bot/start?startapp=kentId1342311343">Запустить Хомяка</a>
             </div>
         </div>
+
+        <!-- Модальное окно с заданиями -->
+        <div id="quests-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Задания <span class="quests-modal-counter">0/0</span></h2>
+                    <button class="close">&times;</button>
+                </div>
+                <ul class="quest-list">
+                    <!-- Quests will be dynamically generated here -->
+                </ul>
+            </div>
+        </div>
+
+        <template id="quest-item-template">
+            <li class="quest-item">
+                <p class="quest-text"></p>
+                <button class="quest-button">
+                    <span class="visually-hidden">Проверить</span>
+                </button>
+            </li>
+        </template>
 
         <script src="script.js"></script>
     </body>
