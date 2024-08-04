@@ -217,28 +217,6 @@ body {
     margin: 0 auto;
 }
 
-@media (min-width: 768px) {
-    .grid {
-        left: 0;
-        grid-template-columns: repeat(6, 90px);
-        grid-template-rows: repeat(6, 90px);
-    }
-
-    .grid::before {
-        top: 210px;
-        right: -5px;
-        width: 50px;
-        height: 100px;
-    }
-    
-    .grid::after {
-        top: 210px;
-        right: -5px;
-        width: 50px;
-        height: 100px;
-    }
-}
-
 /* Spinner */
 
 .spinner-wrapper {
@@ -529,6 +507,32 @@ p.quest-text {
 .quest-button--done::before {
     background-image: url("key.svg");
     transform: rotate(135deg);
+}
+
+@media (min-width: 768px) {
+    .grid {
+        left: 0;
+        grid-template-columns: repeat(6, 90px);
+        grid-template-rows: repeat(6, 90px);
+    }
+
+    .grid::before {
+        top: 210px;
+        right: -5px;
+        width: 50px;
+        height: 100px;
+    }
+    
+    .grid::after {
+        top: 210px;
+        right: -5px;
+        width: 50px;
+        height: 100px;
+    }
+
+    .modal-content {
+        width: 500px;
+    }
 }
 
 .hidden {
