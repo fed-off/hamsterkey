@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function updateProgressBar() {
         const now = new Date();
-        const targetTime = new Date(Date.UTC(2024, 8, 5, 20));
+        const targetTime = new Date(Date.UTC(2024, 7, 5, 20));
 
         const startOfDay = new Date(targetTime);
         startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
