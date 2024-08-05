@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const now = new Date();
         if (now > nextUpdate) {
             document.querySelector('.main-content').classList.add('hidden');
-            document.querySelector('.spinner').classList.remove('hidden');
+            document.querySelector('.spinner-wrapper').classList.remove('hidden');
         }
     }
     showSpinnerIfOutdated();
