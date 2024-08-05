@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Устанавливаем скорость воспроизведения
-    document.getElementById('myVideo').playbackRate = 1.0;
+    document.getElementById('myVideo').playbackRate = 0.75;
 
     function translate(ru, en) {
         const htmlLang = document.documentElement.lang;
