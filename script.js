@@ -248,7 +248,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function updateProgressBar() {
         const now = new Date();
-        const targetTime = new Date(Date.UTC(2024, 7, 5, 20));
+
+        const targetTime = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20));
+        if (now.getUTCHours() > 20) {
+            targetTime.setUTCDate(targetTime.getUTCDate() + 1);
+        }
 
         const startOfDay = new Date(targetTime);
         startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
@@ -265,6 +269,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Инициализируем прогресс-бар при загрузке страницы
     updateProgressBar();
+
+    function showSpinnerIfOutdated() {
+        const metaDateTag = document.querySelector('meta[name="date"]');
+        const lastUpdated = new Date(metaDateTag.content + 'T20:00:00Z');
+        const nextUpdate = new Date(lastUpdated);
+        nextUpdate.setUTCDate(nextUpdate.getUTCDate() + 1);
+
+        const now = new Date();
+        if (now > nextUpdate) {
+            document.querySelector('.main-content').classList.add('hidden');
+            document.querySelector('.spinner').classList.remove('hidden');
+        }
+    }
+    showSpinnerIfOutdated();
 
     function updateQuestCounter() {
         const totalQuests = quests.length;
