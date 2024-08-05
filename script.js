@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const questItemTemplate = document.querySelector('#quest-item-template');
     const questCounterTag = document.querySelector('.quest-counter');
     const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
+    const buttonQuest = document.querySelector('.gift');
 
     let quests = [];
     let clientId = null;
@@ -290,6 +291,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const availableQuests = quests.filter(quest => !quest.done).length;
         questCounterTag.textContent = `${availableQuests}`;
         questsModalCounter.textContent = `${doneQuests}/${totalQuests}`;
+        if (availableQuests === 0) {
+            buttonQuest.classList.remove('animate');
+        }
     }
 
     function addQuestsToModal() {
