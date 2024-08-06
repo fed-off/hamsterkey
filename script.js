@@ -17,6 +17,9 @@ const blocks = [
     { id: 'key', x: 2, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
+const API_URL = 'https://api.hamsterkey.online';
+// const API_URL = 'http://localhost:3000';
+
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -381,7 +384,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         // fallback to ip
         try {
-            const response = await fetch('https://api.hamsterkey.online/ip');
+            const response = await fetch(`${API_URL}/ip`);
             if (!response.ok) {
                 const errorData = await response.json();
                 console.warn('Failed to get client id:', response.status, errorData.error);
@@ -399,7 +402,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function getBikeKey() {
         const clientId = await getClientId();
         try {
-            const response = await fetch(`https://api.hamsterkey.online/bike?client=${clientId}`);
+            const response = await fetch(`${API_URL}/bike?client=${clientId}`);
             if (!response.ok) {
                 const errorData = await response.json();
                 console.warn('Failed to get bike key:', response.status, errorData.error);
@@ -416,8 +419,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function getQuests() {
         const clientId = await getClientId();
         try {
-            const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
-            // const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
+            const response = await fetch(`${API_URL}/quests?client=${clientId}`);
             if (!response.ok) {
                 const errorData = await response.json();
                 console.warn('Failed to get quests:', response.status, errorData.error);
@@ -435,8 +437,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const clientId = await getClientId();
         const body = JSON.stringify({ client: clientId, milliseconds });
         try {
-            const response = await fetch('https://api.hamsterkey.online/minigame', {
-            // const response = await fetch('http://localhost:3000/minigame', {
+            const response = await fetch(`${API_URL}/minigame`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -460,8 +461,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const clientId = await getClientId();
         const body = JSON.stringify({ client: clientId, quest: questId });
         try {
-            const response = await fetch('https://api.hamsterkey.online/quests', {
-            // const response = await fetch('http://localhost:3000/quests', {
+            const response = await fetch(`${API_URL}/quests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
