@@ -35,14 +35,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
     const buttonQuest = document.querySelector('.gift');
 
-    let quests = [];
     let clientId = null;
-    // getQuests().then(data => {
-    //     quests = data;
-    //     console.log(quests);
-    //     updateQuestCounter();
-    //     addQuestsToModal();
-    // });
+    let quests = [];
+
+    async function initQuests() {
+        quests = await getQuests();
+        updateQuestCounter();
+        addQuestsToModal();
+        showQuestsModal();
+    }
+    initQuests();
 
     const grid = document.querySelector('.grid');
     const viewPortSize = document.documentElement.clientWidth;
