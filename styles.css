@@ -360,7 +360,7 @@ animation-delay: -1.6s;
 /* Стили для содержимого модального окна */
 .modal-content {
     position: absolute;
-    top: 30%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 20px;
