@@ -482,8 +482,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             return null;
         }
     }
-
-    quests = await getQuests();
-    updateQuestCounter();
-    addQuestsToModal();
 });
