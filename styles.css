@@ -537,6 +537,7 @@ p.quest-text {
 
     .modal-content {
         width: 500px;
+        top: 20%;
     }
 }
 
