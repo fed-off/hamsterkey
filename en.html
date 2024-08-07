@@ -113,8 +113,9 @@
                         <span class="visually-hidden">Close</span>
                     </button>
                 </div>
-                <p>Something went wrong</p>
-                <button class="copy">Copy</button>
+                <ul class="quest-list reward-list">
+                    <!-- Rewards will be dynamically generated here -->
+                </ul>
                 <a class="modal__hamster-link" href="https://t.me/Hamster_kombat_bot/start?startapp=kentId1342311343">Launch Hamster</a>
             </div>
         </div>
@@ -139,6 +140,15 @@
                 <p class="quest-text"></p>
                 <button class="quest-button">
                     <span class="visually-hidden">Check</span>
+                </button>
+            </li>
+        </template>
+
+        <template id="reward-item-template">
+            <li class="quest-item">
+                <p class="quest-text"></p>
+                <button class="quest-button copy-button">
+                    <span class="visually-hidden">Скопировать</span>
                 </button>
             </li>
         </template>

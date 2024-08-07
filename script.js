@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const giftModal = document.querySelector('#gift-modal');
     const questsModal = document.querySelector('#quests-modal');
+    const rewardList = giftModal.querySelector('.reward-list');
     const closeGiftModalButton = giftModal.querySelector('.close');
     const closeQuestsModalButton = questsModal.querySelector('.close');
-    const copyButton = giftModal.querySelector('.copy');
-    const modalText = giftModal.querySelector('p');
     const questList = questsModal.querySelector('.quest-list');
     const questItemTemplate = document.querySelector('#quest-item-template');
+    const rewardItemTemplate = document.querySelector('#reward-item-template');
     const questCounterTag = document.querySelector('.quest-counter');
     const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
     const buttonQuest = document.querySelector('.gift');
@@ -313,9 +313,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 button.classList.add('quest-button--link');
             }
             button.addEventListener('click', async (event) => {
-                const reward = await sendQuestValidate(quest.id);
-                if (reward !== null) {
-                    showGiftModal(reward);
+                const rewards = await sendQuestValidate(quest.id);
+                if (rewards.length > 0) {
+                    showGiftModal(rewards);
                     quest.done = true;
                     updateQuestCounter();
                     event.target.classList.add('quest-button--done');
@@ -325,8 +325,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function showGiftModal(key) {
-        modalText.textContent = key;
+    function showGiftModal(keys) {
+        keys.forEach(key => {
+            const item = rewardItemTemplate.content.cloneNode(true);
+            item.querySelector('p').textContent = key;
+            const button = item.querySelector('.copy-button');
+            button.addEventListener('click', async (event) => {
+                navigator.clipboard.writeText(key);
+                event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
+                setTimeout(() => {
+                    event.target.style.backgroundColor = "";
+                }, 1000);
+            });
+            rewardList.appendChild(item);
+        });
         giftModal.classList.remove('hidden');
     }
 
@@ -343,20 +355,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     closeGiftModalButton.addEventListener('click', (event) => {
         const closestModal = event.target.closest('.modal');
         closestModal.classList.add('hidden');
-        copyButton.textContent = translate('Копировать', 'Copy');
-        copyButton.style.backgroundColor = "";
+        rewardList.innerHTML = '';
     });
 
     closeQuestsModalButton.addEventListener('click', (event) => {
         const closestModal = event.target.closest('.modal');
         closestModal.classList.add('hidden');
-    });
-
-    copyButton.addEventListener('click', (event) => {
-        const text = giftModal.querySelector('p').textContent;
-        navigator.clipboard.writeText(text);
-        event.target.textContent = translate('Скопировано!', 'Copied!');
-        event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
     });
 
     const buttonGift = document.querySelector('.gift');
@@ -476,7 +480,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return null;
             }
             const data = await response.json();
-            return data.key;
+            return data.keys;
         } catch (error) {
             console.error('Error sending quest validation:', error);
             return null;

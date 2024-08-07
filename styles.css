@@ -514,6 +514,12 @@ p.quest-text {
     transform: rotate(135deg);
 }
 
+/* Модальное окно наград */
+.copy-button::before {
+    background-image: url("images/copy.svg");
+}
+
+
 @media (min-width: 768px) {
     .grid {
         left: 0;
