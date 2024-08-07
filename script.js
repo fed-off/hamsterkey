@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         quests = await getQuests();
         updateQuestCounter();
         addQuestsToModal();
-        // showQuestsModal();
+        showQuestsModal();
     }
     initQuests();
 
