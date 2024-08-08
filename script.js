@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         quests = await getQuests();
         updateQuestCounter();
         addQuestsToModal();
-        showQuestsModal();
+        if (!isMinigameOutdated()) {
+            showQuestsModal();
+        }
     }
     initQuests();
 
@@ -278,18 +280,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateProgressBar();
 
     function showSpinnerIfOutdated() {
+        if (isMinigameOutdated()) {
+            document.querySelector('.main-content').classList.add('hidden');
+            document.querySelector('.spinner-wrapper').classList.remove('hidden');
+        }
+    }
+    showSpinnerIfOutdated();
+
+    function isMinigameOutdated() {
         const metaDateTag = document.querySelector('meta[name="date"]');
         const lastUpdated = new Date(metaDateTag.content + 'T20:00:00Z');
         const nextUpdate = new Date(lastUpdated);
         nextUpdate.setUTCDate(nextUpdate.getUTCDate() + 1);
 
         const now = new Date();
-        if (now > nextUpdate) {
-            document.querySelector('.main-content').classList.add('hidden');
-            document.querySelector('.spinner-wrapper').classList.remove('hidden');
-        }
+        return now > nextUpdate;
     }
-    showSpinnerIfOutdated();
 
     function updateQuestCounter() {
         const totalQuests = quests.length;
