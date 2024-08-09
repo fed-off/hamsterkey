@@ -22,6 +22,7 @@ const API_URL = 'https://api.hamsterkey.online';
 
 
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('script updated');
 
     const giftModal = document.querySelector('#gift-modal');
     const questsModal = document.querySelector('#quests-modal');
