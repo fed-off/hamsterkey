@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function getQuests() {
         const clientId = await getClientId();
         try {
-            const response = await fetch(`${API_URL}/quests?client=${clientId}`);
+            const response = await fetch(`${API_URL}/quests?client=${clientId}`, { cache: 'no-store' });
             if (!response.ok) {
                 const errorData = await response.json();
                 console.warn('Failed to get quests:', response.status, errorData.error);
