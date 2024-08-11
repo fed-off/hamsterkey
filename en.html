@@ -68,12 +68,15 @@
                 <h2 class="visually-hidden">Minigame trainer</h2>
                 <div class="timer">
                     <div class="gift animate">
-                        <img class="" src="images/quest.png" alt="Quests" width="10" height="30">
+                        <img class="keys" src="key.svg" alt="Quests" width="30" height="30">
                         <span class="quest-counter"></span>
                     </div>
-                    <p class="timer__text">
+                    <div class="donate">
+                        💝
+                    </div>
+                    <!-- <p class="timer__text">
                         <output class="timer__value">00:00</output>
-                    </p>
+                    </p> -->
                     <a class="tg-link" href="https://t.me/hamsterkeyonline">
                         <img src="telegram.png" alt="TG" width="30" height="30">
                     </a>
@@ -131,6 +134,45 @@
                 </div>
                 <ul class="quest-list">
                     <!-- Quests will be dynamically generated here -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Модальное окно донатов -->
+        <div id="donate-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Donate</h2>
+                    <button class="close">
+                        <span class="visually-hidden">Close</span>
+                    </button>
+                </div>
+                <p class="description">Support the project by donating any amount in a convenient way</p>
+                <ul class="quest-list reward-list">
+                    <li class="quest-item">
+                        <p class="quest-text">From card (RUB)</p>
+                        <a class="quest-button quest-button--link" href="https://www.tinkoff.ru/cf/6BZmuGZVGsH">
+                            <span class="visually-hidden">Follow the link</span>
+                        </a>
+                    </li>
+                    <li class="quest-item">
+                        <p class="quest-text">TON wallet (TON, USDT, NOT, HMSTR)</p>
+                        <button class="quest-button copy-button" data-wallet="ton">
+                            <span class="visually-hidden">Copy</span>
+                        </button>
+                    </li>
+                    <li class="quest-item">
+                        <p class="quest-text">ETH wallet multichain (ETH, USDT, USDC)</p>
+                        <button class="quest-button copy-button" data-wallet="eth">
+                            <span class="visually-hidden">Copy</span>
+                        </button>
+                    </li>
+                    <li class="quest-item">
+                        <p class="quest-text">Bybit UID</p>
+                        <button class="quest-button copy-button" data-wallet="bybit">
+                            <span class="visually-hidden">Copy</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
