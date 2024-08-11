@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     donateModal.querySelectorAll('.copy-button').forEach((button) => {
-        addEventListener('click', (event) => {
+        button.addEventListener('click', (event) => {
             const walletType = event.target.dataset.wallet;
             const wallets = {
                 ton: "UQAGV0fsyCWZQ6iXqahJ_Q8-fldNr9hXgWwGLAUS6y-5Wblm",
