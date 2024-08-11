@@ -1,20 +1,20 @@
 const gridSize = 6;
 let blockSize;
 const blocks = [
-    { id: 'red1', x: 0, y: 3, width: 1, height: 2, color: 'red' },
-    { id: 'red2', x: 1, y: 3, width: 1, height: 3, color: 'red' },
-    { id: 'red3', x: 2, y: 1, width: 1, height: 2, color: 'red' },
-    { id: 'red4', x: 3, y: 4, width: 1, height: 2, color: 'red' },
-    { id: 'red5', x: 4, y: 1, width: 1, height: 3, color: 'red' },
-    { id: 'red6', x: 5, y: 0, width: 1, height: 2, color: 'red' },
-    { id: 'red7', x: 5, y: 2, width: 1, height: 3, color: 'red' },
-    { id: 'green1', x: 0, y: 1, width: 2, height: 1, color: 'green' },
-    { id: 'green2', x: 2, y: 0, width: 3, height: 1, color: 'green' },
-    { id: 'green3', x: 2, y: 3, width: 2, height: 1, color: 'green' },
-    { id: 'green4', x: 4, y: 5, width: 2, height: 1, color: 'green' },
-    // { id: 'green5', x: 4, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'red1', x: 0, y: 0, width: 1, height: 2, color: 'red' },
+    { id: 'red2', x: 0, y: 2, width: 1, height: 2, color: 'red' },
+    { id: 'red3', x: 2, y: 4, width: 1, height: 2, color: 'red' },
+    { id: 'red4', x: 4, y: 1, width: 1, height: 3, color: 'red' },
+    { id: 'red5', x: 5, y: 1, width: 1, height: 2, color: 'red' },
+    { id: 'red6', x: 5, y: 4, width: 1, height: 2, color: 'red' },
+    // { id: 'red7', x: 5, y: 2, width: 1, height: 3, color: 'red' },
+    { id: 'green1', x: 0, y: 5, width: 2, height: 1, color: 'green' },
+    { id: 'green2', x: 1, y: 1, width: 2, height: 1, color: 'green' },
+    { id: 'green3', x: 1, y: 3, width: 2, height: 1, color: 'green' },
+    { id: 'green4', x: 3, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'green5', x: 3, y: 4, width: 2, height: 1, color: 'green' },
     // { id: 'green6', x: 4, y: 5, width: 2, height: 1, color: 'green' },
-    { id: 'key', x: 0, y: 2, width: 2, height: 1, color: 'key' }
+    { id: 'key', x: 2, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
 const API_URL = 'https://api.hamsterkey.online';
@@ -22,10 +22,10 @@ const API_URL = 'https://api.hamsterkey.online';
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('script updated');
 
     const giftModal = document.querySelector('#gift-modal');
     const questsModal = document.querySelector('#quests-modal');
+    const donateModal = document.querySelector('#donate-modal');
     const rewardList = giftModal.querySelector('.reward-list');
     const closeGiftModalButton = giftModal.querySelector('.close');
     const closeQuestsModalButton = questsModal.querySelector('.close');
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const questCounterTag = document.querySelector('.quest-counter');
     const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
     const buttonQuest = document.querySelector('.gift');
+    const donateButton = document.querySelector('.donate');
 
     let clientId = null;
     let quests = [];
@@ -349,6 +350,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         giftModal.classList.remove('hidden');
     }
 
+    donateModal.querySelectorAll('.copy-button').forEach((button) => {
+        addEventListener('click', (event) => {
+            const walletType = event.target.dataset.wallet;
+            const wallets = {
+                ton: "UQAGV0fsyCWZQ6iXqahJ_Q8-fldNr9hXgWwGLAUS6y-5Wblm",
+                eth: "0x1cf750cD6235453b95f33283cb58468Dd0e4E8Ae",
+                bybit: "242516986",
+            };
+            navigator.clipboard.writeText(wallets[walletType]);
+            event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
+            setTimeout(() => {
+                event.target.style.backgroundColor = "";
+            }, 1000);
+        });
+    });
+
+    donateButton.addEventListener('click', () => {
+        donateModal.classList.remove('hidden');
+    });
+
     function showQuestsModal() {
         questsModal.classList.remove('hidden');
     }
@@ -366,6 +387,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     closeQuestsModalButton.addEventListener('click', (event) => {
+        const closestModal = event.target.closest('.modal');
+        closestModal.classList.add('hidden');
+    });
+
+    donateModal.querySelector('button.close').addEventListener('click', (event) => {
         const closestModal = event.target.closest('.modal');
         closestModal.classList.add('hidden');
     });
