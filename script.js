@@ -17,8 +17,8 @@ const blocks = [
     { id: 'key', x: 2, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
-const API_URL = 'https://api.hamsterkey.online';
-// const API_URL = 'http://localhost:3000';
+// const API_URL = 'https://api.hamsterkey.online';
+const API_URL = 'http://localhost:3000';
 
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -312,21 +312,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function addQuestsToModal() {
         quests.forEach(quest => {
+            let action = 'validate';
             const item = questItemTemplate.content.cloneNode(true);
             item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
             const button = item.querySelector('.quest-button');
             if (quest.done) {
                 button.classList.add('quest-button--done');
-            } else if (quest.type === 'link') {
+            } else if (quest.type === 'link' && !quest.visited) {
                 button.classList.add('quest-button--link');
+                action = 'link';
             }
             button.addEventListener('click', async (event) => {
-                const rewards = await sendQuestValidate(quest.id);
-                if (rewards.length > 0) {
-                    showGiftModal(rewards);
-                    quest.done = true;
-                    updateQuestCounter();
-                    event.target.classList.add('quest-button--done');
+                if (action === 'validate') {
+                    const rewards = await sendQuestValidate(quest.id);
+                    if (rewards.length > 0) {
+                        showGiftModal(rewards);
+                        quest.done = true;
+                        updateQuestCounter();
+                        event.target.classList.add('quest-button--done');
+                    }
+                } else if (action === 'link') {
+                    window.open(quest.url, '_blank');
+                    quest.visited = true;
+                    event.target.classList.remove('quest-button--link');
+                    action = 'validate';
+                    // sendQuestLink(quest.id);
                 }
             });
             questList.appendChild(item);
