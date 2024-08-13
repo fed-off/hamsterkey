@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const buttonRefresh = document.querySelector('.refresh');
     buttonRefresh.addEventListener('click', () => {
-        resetTimer();
+        // resetTimer();
         resetGrid();
     });
 
