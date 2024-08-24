@@ -535,6 +535,11 @@ p.description {
     background-image: url("images/copy.svg");
 }
 
+#gift-modal .copy-button {
+    min-height: 40px;
+    width: 40px;
+}
+
 
 @media (min-width: 768px) {
     .grid {
