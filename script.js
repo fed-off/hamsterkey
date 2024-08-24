@@ -333,10 +333,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 } else if (action === 'link') {
                     window.open(quest.url, '_blank');
-                    quest.visited = true;
-                    event.target.classList.remove('quest-button--link');
-                    action = 'validate';
-                    // sendQuestLink(quest.id);
+                    const ok = await sendQuestEventLink(quest.id);
+                    if (ok) {
+                        quest.visited = true;
+                        event.target.classList.remove('quest-button--link');
+                        action = 'validate';
+                    }
                 }
             });
             questList.appendChild(item);
@@ -526,6 +528,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             return data.keys;
         } catch (error) {
             console.error('Error sending quest validation:', error);
+            return null;
+        }
+    }
+
+    async function sendQuestEventLink(questId) {
+        const clientId = await getClientId();
+        const body = JSON.stringify({ event: 'link', client: clientId, quest: questId });
+        try {
+            const response = await fetch(`${API_URL}/events`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.warn('Unexpected response from api:', response.status, errorData.error);
+                return null;
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error communicating with api', error);
             return null;
         }
     }
