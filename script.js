@@ -1,20 +1,20 @@
 const gridSize = 6;
 let blockSize;
 const blocks = [
-    { id: 'red1', x: 0, y: 0, width: 1, height: 2, color: 'red' },
-    { id: 'red2', x: 1, y: 0, width: 1, height: 2, color: 'red' },
-    { id: 'red3', x: 4, y: 0, width: 1, height: 3, color: 'red' },
-    { id: 'red4', x: 2, y: 2, width: 1, height: 2, color: 'red' },
-    { id: 'red5', x: 0, y: 3, width: 1, height: 2, color: 'red' },
-    { id: 'red6', x: 3, y: 4, width: 1, height: 2, color: 'red' },
-    { id: 'red7', x: 5, y: 3, width: 1, height: 3, color: 'red' },
-    { id: 'green1', x: 0, y: 5, width: 2, height: 1, color: 'green' },
-    { id: 'green2', x: 1, y: 4, width: 2, height: 1, color: 'green' },
-    { id: 'green3', x: 2, y: 1, width: 2, height: 1, color: 'green' },
-    { id: 'green4', x: 3, y: 3, width: 2, height: 1, color: 'green' },
-    // { id: 'green5', x: 4, y: 4, width: 2, height: 1, color: 'green' },
-    // { id: 'green6', x: 4, y: 4, width: 2, height: 1, color: 'green' },
-    { id: 'key', x: 0, y: 2, width: 2, height: 1, color: 'key' }
+    { id: 'red1', x: 0, y: 3, width: 1, height: 3, color: 'red' },
+    { id: 'red2', x: 1, y: 2, width: 1, height: 2, color: 'red' },
+    { id: 'red3', x: 2, y: 1, width: 1, height: 2, color: 'red' },
+    { id: 'red4', x: 3, y: 4, width: 1, height: 2, color: 'red' },
+    { id: 'red5', x: 5, y: 2, width: 1, height: 3, color: 'red' },
+    // { id: 'red6', x: 3, y: 4, width: 1, height: 2, color: 'red' },
+    // { id: 'red7', x: 5, y: 3, width: 1, height: 3, color: 'red' },
+    { id: 'green1', x: 0, y: 1, width: 2, height: 1, color: 'green' },
+    { id: 'green2', x: 1, y: 0, width: 2, height: 1, color: 'green' },
+    { id: 'green3', x: 1, y: 4, width: 2, height: 1, color: 'green' },
+    { id: 'green4', x: 2, y: 3, width: 3, height: 1, color: 'green' },
+    { id: 'green5', x: 4, y: 1, width: 2, height: 1, color: 'green' },
+    { id: 'green6', x: 4, y: 5, width: 2, height: 1, color: 'green' },
+    { id: 'key', x: 3, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
 const API_URL = 'https://api.hamsterkey.online';
@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Обновление таймера каждую секунду
     function startTimer() {
         startTime = Date.now();
+        return;
         timerInterval = setInterval(() => {
             totalSeconds++;
             const minutes = Math.floor(totalSeconds / 60);
@@ -108,11 +109,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Функция для остановки таймера
     function stopTimer() {
+        endTime = Date.now();
+        return;
+
         const GREEN = 'rgba(0, 254, 100, 0.2)';
         const RED = 'rgba(252, 20, 18, 0.2)';
         const WIN_TIME = 60;
-
-        endTime = Date.now();
 
         const timeResultSeconds = (+timerValue.textContent.slice(-2));
         const timeResultMinutes = (+timerValue.textContent.slice(0, 2));
@@ -125,11 +127,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function resetTimer() {
         stopTimer();
+        startTimer();
+        return;
         totalSeconds = 0;
         timerValue.textContent = '00:00';
         timerValue.style.backgroundColor = 'transparent';
         timerValue.classList.remove('timer__value--stopped');
-        startTimer();
     }
 
     let selectedBlock = null;
@@ -345,10 +348,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    function trimKey(key) {
+        // BIKE-ZWM-NTRZ-XH9R-F8B -> BIKE-ZWM-…-F8B
+        return key.slice(0, key.indexOf('-', key.indexOf('-') + 1) + 1) + '…' + key.slice(-4);
+    }
+
     function showGiftModal(keys) {
         keys.forEach(key => {
             const item = rewardItemTemplate.content.cloneNode(true);
-            item.querySelector('p').textContent = key;
+            item.querySelector('p').textContent = trimKey(key);
             const button = item.querySelector('.copy-button');
             button.addEventListener('click', async (event) => {
                 navigator.clipboard.writeText(key);
@@ -388,7 +396,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const buttonRefresh = document.querySelector('.refresh');
     buttonRefresh.addEventListener('click', () => {
-        // resetTimer();
+        resetTimer();
         resetGrid();
     });
 
