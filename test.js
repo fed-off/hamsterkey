@@ -1,443 +1,119 @@
-const gridSize = 6;
-let blockSize;
-const blocks = [
-    { id: 'red1', x: 1, y: 0, width: 1, height: 2, color: 'red' },
-    { id: 'red2', x: 3, y: 1, width: 1, height: 2, color: 'red' },
-    { id: 'red3', x: 4, y: 2, width: 1, height: 2, color: 'red' },
-    { id: 'red4', x: 0, y: 3, width: 1, height: 2, color: 'red' },
-    { id: 'red5', x: 2, y: 4, width: 1, height: 2, color: 'red' },
-    { id: 'red6', x: 5, y: 3, width: 1, height: 3, color: 'red' },
-    { id: 'green1', x: 4, y: 1, width: 2, height: 1, color: 'green' },
-    { id: 'green2', x: 1, y: 3, width: 3, height: 1, color: 'green' },
-    { id: 'green3', x: 3, y: 4, width: 2, height: 1, color: 'green' },
-    // { id: 'green4', x: 4, y: 1, width: 2, height: 1, color: 'green' },
-    // { id: 'green5', x: 4, y: 4, width: 2, height: 1, color: 'green' },
-    { id: 'key', x: 1, y: 2, width: 2, height: 1, color: 'key' }
-];
+const Keys = {
+    config: {
+        bike: {
+            appToken: 'd28721be-fd2d-4b45-869e-9f253b554e50',
+            promoId: '43e35910-c168-4634-ad4f-52fd764a843f',
+        },
+    },
+}
 
+const PARALLEL_KEYS = 6;
+const EVENTS_DELAY_MIN = 25 * 1000;
+const BETWEEN_KEYS_DELAY_MAX = 15 * 1000;
 
-document.addEventListener('DOMContentLoaded', async () => {
+const generateClientId = () => {
+    const timestamp = Date.now();
+    const randomNumbers = Array.from({ length: 19 }, () => Math.floor(Math.random() * 10)).join('');
+    return `${timestamp}-${randomNumbers}`;
+};
 
-    const giftModal = document.querySelector('#gift-modal');
-    const questsModal = document.querySelector('#quests-modal');
-    const closeGiftModalButton = giftModal.querySelector('.close');
-    const closeQuestsModalButton = questsModal.querySelector('.close');
-    const copyButton = giftModal.querySelector('.copy');
-    const modalText = giftModal.querySelector('p');
-    const questList = questsModal.querySelector('.quest-list');
-    const questItemTemplate = document.querySelector('#quest-item-template');
-    const questCounterTag = document.querySelector('.quest-counter');
-    const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
+const delayRandom = () => (Math.random() / 2 + 1);
 
-    let quests = [];
-    // getQuests().then(data => {
-    //     quests = data;
-    //     console.log(quests);
-    //     updateQuestCounter();
-    //     addQuestsToModal();
-    // });
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    const grid = document.querySelector('.grid');
-    const viewPortSize = document.documentElement.clientWidth;
-    if (viewPortSize < 768) {
-        blockSize = 48;
-    } else {
-        blockSize = 90;
+const login = async (clientId, appToken) => {
+    if (!clientId) {
+        throw new Error('no client id');
     }
-    function createBlock(block) {
-        const element = document.createElement('button');
-        element.classList.add('block', block.color);
-        element.style.width = `${block.width * blockSize + (block.width - 1) * 5}px`;
-        element.style.height = `${block.height * blockSize + (block.height - 1) * 5}px`;
-        element.style.left = `${block.x * blockSize + block.x * 5}px`;
-        element.style.top = `${block.y * blockSize + block.y * 5}px`;
-        element.dataset.x = block.x;
-        element.dataset.y = block.y;
-        element.dataset.width = block.width;
-        element.dataset.height = block.height;
-        element.dataset.color = block.color;
-        element.dataset.id = block.id;
-        grid.appendChild(element);
-        return element;
-    }
-
-
-    let blockElements = blocks.map(createBlock);
-
-    function resetGrid() {
-        blockElements.forEach(element => element.remove());
-        blockElements = blocks.map(createBlock);
-    }
-
-    // Функция для форматирования чисел в формате двузначного числа
-    function formatTime(number) {
-        return number < 10 ? `0${number}` : number;
-    }
-
-    let totalSeconds = 0;
-    const timerValue = document.querySelector('.timer__value');
-    let timerInterval;
-    let startTime;
-    let endTime;
-
-    // Обновление таймера каждую секунду
-    function startTimer() {
-        startTime = Date.now();
-        timerInterval = setInterval(() => {
-            totalSeconds++;
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            timerValue.textContent = `${formatTime(minutes)}:${formatTime(seconds)}`;
-        }, 1000);
-    }
-
-    startTimer();
-
-    // Функция для остановки таймера
-    function stopTimer() {
-        const GREEN = 'rgba(0, 254, 100, 0.2)';
-        const RED = 'rgba(252, 20, 18, 0.2)';
-        const WIN_TIME = 60;
-
-        endTime = Date.now();
-
-        const timeResultSeconds = (+timerValue.textContent.slice(-2));
-        const timeResultMinutes = (+timerValue.textContent.slice(0, 2));
-        const timeResult = timeResultMinutes ? WIN_TIME + 1 : timeResultSeconds;
-        timeResult < WIN_TIME ? timerValue.style.backgroundColor = `${GREEN}` : timerValue.style.backgroundColor = `${RED}`;
-
-        clearInterval(timerInterval);
-        timerValue.classList.add('timer__value--stopped');
-    }
-
-    function resetTimer() {
-        stopTimer();
-        totalSeconds = 0;
-        timerValue.textContent = '00:00';
-        timerValue.style.backgroundColor = 'transparent';
-        timerValue.classList.remove('timer__value--stopped');
-        startTimer();
-    }
-
-    let selectedBlock = null;
-
-    function startDrag(e) {
-        const event = e.touches ? e.touches[0] : e;
-        if (event.target.classList.contains('block')) {
-            selectedBlock = event.target;
-            selectedBlock.initialX = event.clientX;
-            selectedBlock.initialY = event.clientY;
-            selectedBlock.startX = parseInt(selectedBlock.dataset.x);
-            selectedBlock.startY = parseInt(selectedBlock.dataset.y);
-        }
-    }
-    
-    async function stopDrag() {
-        if (selectedBlock.dataset.id === 'key' && selectedBlock.dataset.x === '4') {
-            stopTimer();
-            const milliseconds = getResultTimeInMilliseconds();
-            sendMiniGameResult(milliseconds);
-        }
-
-        if (selectedBlock) {
-            selectedBlock = null;
-        }
-    }
-
-    function getResultTimeInMilliseconds() {
-        return endTime - startTime;
-    }
-
-    function formatResultTime() {
-        const totalMilliseconds = getResultTimeInMilliseconds();
-        const minutes = Math.floor(totalMilliseconds / 60000);
-        const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
-        const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
-        return `${formatTime(minutes)}:${formatTime(seconds)}.${formatTime(milliseconds)}`;
-    }
-
-    function drag(e) {
-        e.preventDefault();
-        const event = e.touches ? e.touches[0] : e;
-        if (selectedBlock) {
-            const dx = event.clientX - selectedBlock.initialX;
-            const dy = event.clientY - selectedBlock.initialY;
-            const deltaX = Math.round(dx / blockSize);
-            const deltaY = Math.round(dy / blockSize);
-            const newX = selectedBlock.startX + (selectedBlock.dataset.color === 'green' || selectedBlock.dataset.color === 'key' ? deltaX : 0);
-            const newY = selectedBlock.startY + (selectedBlock.dataset.color === 'red' ? deltaY : 0);
-
-            if (canMove(selectedBlock, newX, newY)) {
-                selectedBlock.style.left = `${newX * blockSize + newX * 5}px`;
-                selectedBlock.style.top = `${newY * blockSize + newY * 5}px`;
-                selectedBlock.dataset.x = newX;
-                selectedBlock.dataset.y = newY;
-            }
-        }
-    }
-
-    grid.addEventListener('mousedown', startDrag);
-    grid.addEventListener('touchstart', startDrag);
-
-    document.addEventListener('mouseup', stopDrag);
-    document.addEventListener('touchend', stopDrag);
-
-    grid.addEventListener('mousemove', drag);
-    grid.addEventListener('touchmove', drag, {passive: false});
-
-    function canMove(block, newX, newY) {
-        const width = parseInt(block.dataset.width);
-        const height = parseInt(block.dataset.height);
-        const currentX = parseInt(block.dataset.x, 10);
-        const currentY = parseInt(block.dataset.y, 10);
-
-        // Check boundaries
-        if (newX < 0 || newY < 0 || newX + width > gridSize || newY + height > gridSize) {
-            return false;
-        }
-
-        // Check collisions
-        if (newX !== currentX) {
-            const step = newX > currentX ? 1 : -1;
-            for (const otherBlock of document.querySelectorAll('.block')) {
-                for (let x = currentX + step; x !== newX + step; x += step) {
-                    if (checkCollision(x, currentY, width, height, otherBlock)) {
-                        return false;
-                    }
-                }
-            }
-        }
-    
-        if (newY !== currentY) {
-            const step = newY > currentY ? 1 : -1;
-            for (const otherBlock of document.querySelectorAll('.block')) {
-                for (let y = currentY + step; y !== newY + step; y += step) {
-                    if (checkCollision(currentX, y, width, height, otherBlock)) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    function checkCollision(newX, newY, width, height, otherBlock) {
-        if (selectedBlock === otherBlock) {
-            return false;
-        }
-
-        const otherX = parseInt(otherBlock.dataset.x);
-        const otherY = parseInt(otherBlock.dataset.y);
-        const otherWidth = parseInt(otherBlock.dataset.width);
-        const otherHeight = parseInt(otherBlock.dataset.height);
-
-        if (
-            newX < otherX + otherWidth &&
-            newX + width > otherX &&
-            newY < otherY + otherHeight &&
-            newY + height > otherY
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    function updateProgressBar() {
-        const now = new Date();
-        const targetTime = new Date(Date.UTC(2024, 7, 4, 20));
-
-        const startOfDay = new Date(targetTime);
-        startOfDay.setUTCDate(startOfDay.getUTCDate() - 1);
-    
-        const elapsed = now - startOfDay;
-        const total = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
-        const progress = (elapsed / total) * 100;
-
-        document.getElementById('progress-bar').style.width = progress + '%';
-    }
-    
-    // Обновляем прогресс-бар каждые 1000 миллисекунд (1 секунда)
-    setInterval(updateProgressBar, 1000);
-    
-    // Инициализируем прогресс-бар при загрузке страницы
-    updateProgressBar();
-
-    function updateQuestCounter() {
-        const totalQuests = quests.length;
-        const doneQuests = quests.filter(quest => quest.done).length;
-        const availableQuests = quests.filter(quest => !quest.done).length;
-        questCounterTag.textContent = `${availableQuests}`;
-        questsModalCounter.textContent = `${doneQuests}/${totalQuests}`;
-    }
-
-    function addQuestsToModal() {
-        quests.forEach(quest => {
-            const item = questItemTemplate.content.cloneNode(true);
-            item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
-            const button = item.querySelector('.quest-button');
-            if (quest.done) {
-                button.classList.add('quest-button--done');
-            } else if (quest.type === 'link') {
-                button.classList.add('quest-button--link');
-            }
-            button.addEventListener('click', async (event) => {
-                const reward = await sendQuestValidate(quest.id);
-                if (reward !== null) {
-                    showGiftModal(reward);
-                    quest.done = true;
-                    updateQuestCounter();
-                    event.target.classList.add('quest-button--done');
-                }
-            });
-            questList.appendChild(item);
-        });
-    }
-
-    function showGiftModal(key) {
-        modalText.textContent = key;
-        giftModal.classList.remove('hidden');
-    }
-
-    function showQuestsModal() {
-        questsModal.classList.remove('hidden');
-    }
-
-    const buttonRefresh = document.querySelector('.refresh');
-    buttonRefresh.addEventListener('click', () => {
-        resetTimer();
-        resetGrid();
+    const response = await fetch('https://api.gamepromo.io/promo/login-client', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Host': 'api.gamepromo.io',
+        },
+        body: JSON.stringify({
+            appToken: appToken,
+            clientId: clientId,
+            clientOrigin: 'deviceid', // TODO: try random string?
+        }),
     });
+    const data = await response.json();
+    return data.clientToken;
+};
 
-    closeGiftModalButton.addEventListener('click', (event) => {
-        const closestModal = event.target.closest('.modal');
-        closestModal.classList.add('hidden');
-        copyButton.textContent = translate('Копировать', 'Copy');
-        copyButton.style.backgroundColor = "";
+const emulateProgress = async (clientToken, promoId, attempts) => {
+    if (!clientToken) {
+        throw new Error('no access token');
+    }
+    const response = await fetch('https://api.gamepromo.io/promo/register-event', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Host': 'api.gamepromo.io',
+            'Authorization': `Bearer ${clientToken}`,
+        },
+        body: JSON.stringify({
+            promoId: promoId,
+            eventId: crypto.randomUUID(),
+            eventOrigin: 'undefined', // TODO: try random string?
+        }),
     });
+    const data = await response.json();
+    return data.hasCode;
+};
 
-    closeQuestsModalButton.addEventListener('click', (event) => {
-        const closestModal = event.target.closest('.modal');
-        closestModal.classList.add('hidden');
+const createKey = async (clientToken, promoId, attempts) => {
+    const response = await fetch('https://api.gamepromo.io/promo/create-code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Host': 'api.gamepromo.io',
+            'Authorization': `Bearer ${clientToken}`,
+        },
+        body: JSON.stringify({
+            promoId: promoId,
+        }),
     });
+    const data = await response.json();
+    return data.promoCode;
+};
 
-    copyButton.addEventListener('click', (event) => {
-        const text = giftModal.querySelector('p').textContent;
-        navigator.clipboard.writeText(text);
-        event.target.textContent = translate('Скопировано!', 'Copied!');
-        event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
-    });
+const generateKey = async (type) => {
+    const attempts = {};
 
-    const buttonGift = document.querySelector('.gift');
-    buttonGift.addEventListener('click', () => {
-        showQuestsModal();
-    });
+    await sleep(BETWEEN_KEYS_DELAY_MAX * Math.random());
 
-    // Устанавливаем скорость воспроизведения
-    document.getElementById('myVideo').playbackRate = 1.0;
+    const clientId = generateClientId();
+    const appToken = Keys.config[type].appToken;
+    const clientToken = await login(clientId, appToken);
+    console.log('token', clientToken);
 
-    function translate(ru, en) {
-        const htmlLang = document.documentElement.lang;
-        return htmlLang === 'ru' ? ru : en;
-    }
-
-    async function getClientId() {
-        // using Yandex.Metrika
-        for (let i = 0; i < 10; i++) {
-            if (!window.yaCounter97937022) {
-                await new Promise(resolve => setTimeout(resolve, 500));
-            }
-        }
-        return window.yaCounter97937022.getClientID();
-    }
-
-    async function getBikeKey() {
-        const clientId = await getClientId();
-        try {
-            const response = await fetch(`https://api.hamsterkey.online/bike?client=${clientId}`);
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to get bike key:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data.key;
-        } catch (error) {
-            console.error('Error fetching bike key:', error);
-            return null;
+    const promoId = Keys.config[type].promoId;
+    for (let j = 0; j < 20; j++) {
+        console.log('sleeping');
+        await sleep(EVENTS_DELAY_MIN * delayRandom());
+        const hasCode = await emulateProgress(clientToken, promoId, attempts);
+        console.log('hasCode', hasCode);
+        if (hasCode) {
+            break;
         }
     }
 
-    async function getQuests() {
-        const clientId = await getClientId();
-        try {
-            const response = await fetch(`https://api.hamsterkey.online/quests?client=${clientId}`);
-            // const response = await fetch(`http://localhost:3000/quests?client=${clientId}`);
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to get quests:', response.status, errorData.error);
-                return [];
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching quests:', error);
-            return [];
-        }
-    }
+    console.log('sleeping');
+    await sleep(EVENTS_DELAY_MIN * delayRandom());
+    const key = await createKey(clientToken, promoId, attempts);
 
-    async function sendMiniGameResult(milliseconds) {
-        const clientId = await getClientId();
-        const body = JSON.stringify({ client: clientId, milliseconds });
-        try {
-            const response = await fetch('https://api.hamsterkey.online/minigame', {
-            // const response = await fetch('http://localhost:3000/minigame', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to send minigame result:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error sending minigame result:', error);
-            return null;
-        }
-    }
+    return key;
+};
 
-    async function sendQuestValidate(questId) {
-        const clientId = await getClientId();
-        const body = JSON.stringify({ client: clientId, quest: questId });
-        try {
-            const response = await fetch('https://api.hamsterkey.online/quests', {
-            // const response = await fetch('http://localhost:3000/quests', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to send quest validation:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data.key;
-        } catch (error) {
-            console.error('Error sending quest validation:', error);
-            return null;
-        }
-    }
 
-    quests = await getQuests();
-    updateQuestCounter();
-    addQuestsToModal();
-});
+
+async function main() {
+    console.log('Generating bike key');
+    const key = await generateKey('bike');
+    console.log(key);
+    document.querySelector('#key').innerHTML = key;
+}
+
+main();
+
