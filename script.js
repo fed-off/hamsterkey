@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showGiftModal(keys) {
         keys.forEach(key => {
             const item = rewardItemTemplate.content.cloneNode(true);
-            item.querySelector('p').textContent = trimKey(key);
+            item.querySelector('p').textContent = key;
             const button = item.querySelector('.copy-button');
             button.addEventListener('click', async (event) => {
                 copyToClipboard(key);
