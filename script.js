@@ -353,13 +353,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         return key.slice(0, key.indexOf('-', key.indexOf('-') + 1) + 1) + '…' + key.slice(-4);
     }
 
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";  // Избегаем прокрутки
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.error('Не удалось скопировать текст', err);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    async function copyToClipboard(text) {
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                console.warn('Не удалось скопировать текст', err);
+                fallbackCopyTextToClipboard(text);
+            }
+        } catch (err) {
+            console.warn('Не удалось скопировать текст', err);
+            fallbackCopyTextToClipboard(text);
+        }
+    }
+
     function showGiftModal(keys) {
         keys.forEach(key => {
             const item = rewardItemTemplate.content.cloneNode(true);
             item.querySelector('p').textContent = trimKey(key);
             const button = item.querySelector('.copy-button');
             button.addEventListener('click', async (event) => {
-                navigator.clipboard.writeText(key);
+                copyToClipboard(key);
                 event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
                 setTimeout(() => {
                     event.target.style.backgroundColor = "";
@@ -378,7 +408,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 eth: "0x1cf750cD6235453b95f33283cb58468Dd0e4E8Ae",
                 bybit: "242516986",
             };
-            navigator.clipboard.writeText(wallets[walletType]);
+            copyToClipboard(wallets[walletType]);
             event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
             setTimeout(() => {
                 event.target.style.backgroundColor = "";
