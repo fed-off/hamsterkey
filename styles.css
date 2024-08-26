@@ -540,6 +540,10 @@ p.description {
     width: 40px;
 }
 
+#gift-modal .quest-text {
+    font-size: 14px;
+}
+
 
 @media (min-width: 768px) {
     .grid {
