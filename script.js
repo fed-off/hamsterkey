@@ -348,11 +348,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function trimKey(key) {
-        // BIKE-ZWM-NTRZ-XH9R-F8B -> BIKE-ZWM-…-F8B
-        return key.slice(0, key.indexOf('-', key.indexOf('-') + 1) + 1) + '…' + key.slice(-4);
-    }
-
     function fallbackCopyTextToClipboard(text) {
         const textArea = document.createElement("textarea");
         textArea.value = text;
@@ -484,23 +479,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return clientId;
         } catch (error) {
             console.error('Error fetching client id:', error);
-            return null;
-        }
-    }
-
-    async function getBikeKey() {
-        const clientId = await getClientId();
-        try {
-            const response = await fetch(`${API_URL}/bike?client=${clientId}`);
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to get bike key:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data.key;
-        } catch (error) {
-            console.error('Error fetching bike key:', error);
             return null;
         }
     }
