@@ -7,6 +7,10 @@ const Keys = {
     },
 }
 
+function print(msg) {
+    document.querySelector('#key').innerHTML = msg;
+}
+
 const PARALLEL_KEYS = 6;
 const EVENTS_DELAY_MIN = 25 * 1000;
 const BETWEEN_KEYS_DELAY_MAX = 15 * 1000;
@@ -86,20 +90,20 @@ const generateKey = async (type) => {
     const clientId = generateClientId();
     const appToken = Keys.config[type].appToken;
     const clientToken = await login(clientId, appToken);
-    console.log('token', clientToken);
+    print('token: ' + clientToken);
 
     const promoId = Keys.config[type].promoId;
     for (let j = 0; j < 20; j++) {
-        console.log('sleeping');
+        print('sleeping');
         await sleep(EVENTS_DELAY_MIN * delayRandom());
         const hasCode = await emulateProgress(clientToken, promoId, attempts);
-        console.log('hasCode', hasCode);
+        print('hasCode: ' + hasCode);
         if (hasCode) {
             break;
         }
     }
 
-    console.log('sleeping');
+    print('sleeping');
     await sleep(EVENTS_DELAY_MIN * delayRandom());
     const key = await createKey(clientToken, promoId, attempts);
 
@@ -109,10 +113,13 @@ const generateKey = async (type) => {
 
 
 async function main() {
-    console.log('Generating bike key');
-    const key = await generateKey('bike');
-    console.log(key);
-    document.querySelector('#key').innerHTML = key;
+    try {
+        print('Generating bike key');
+        const key = await generateKey('bike');
+        print(key);
+    } catch (error) {
+        print('Error: ' + error);
+    }
 }
 
 main();
