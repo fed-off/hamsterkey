@@ -535,6 +535,10 @@ p.description {
     background-image: url("images/copy.svg");
 }
 
+.copy-button--copied::before {
+    background-image: url("images/check.svg");
+}
+
 #gift-modal .copy-button {
     min-height: 40px;
     width: 40px;

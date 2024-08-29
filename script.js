@@ -384,6 +384,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.querySelector('p').textContent = key;
             const button = item.querySelector('.copy-button');
             button.addEventListener('click', async (event) => {
+                button.classList.add('copy-button--copied');
                 copyToClipboard(key);
                 event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
                 setTimeout(() => {
