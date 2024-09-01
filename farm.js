@@ -4,41 +4,55 @@ const API_URL = window.location.hostname === 'localhost' ?
                 'http://localhost:3000' :
                 'https://api.hamsterkey.online';
 
-async function main(generatorId) {
-  while (true) {
-    try {
-      await doFarmTask(generatorId);
-    } catch (error) {
-      console.error(error);
-    }
-    await sleep(RETRY_DELAY);
-  }
-}
+// async function main(generatorId) {
+//   while (true) {
+//     try {
+//       await doFarmTask(generatorId);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//     await sleep(RETRY_DELAY);
+//   }
+// }
 
 
-async function doFarmTask(generatorId) {
+// async function doFarmTask(generatorId) {
+//   const task = await requestFarmTask();
+//   console.log(task);
+//   const tokens = [];
+//   while (true) {
+//     const clientId = generateRandomClientId();
+//     try {
+//       const clientToken = await requestClientToken(clientId, task.appToken);
+//       console.log(clientToken);
+//       if (!clientToken) {
+//         break;
+//       }
+//       tokens.push(clientToken);
+//       await sleep(100);
+//     } catch (error) {
+//       break;
+//     }
+//   }
+//   if (tokens.length === 0) {
+//     return;
+//   }
+//   await sendTokens(generatorId, task.keyType, tokens);
+//   console.log(`Sent ${tokens.length} ${task.keyType} tokens`);
+// }
+
+async function farmToken(generatorId) {
   const task = await requestFarmTask();
   console.log(task);
-  const tokens = [];
-  while (true) {
-    const clientId = generateRandomClientId();
-    try {
-      const clientToken = await requestClientToken(clientId, task.appToken);
-      console.log(clientToken);
-      if (!clientToken) {
-        break;
-      }
-      tokens.push(clientToken);
-      await sleep(100);
-    } catch (error) {
-      break;
-    }
-  }
-  if (tokens.length === 0) {
+  const clientId = generateRandomClientId();
+  const clientToken = await requestClientToken(clientId, task.appToken);
+  console.log(clientToken);
+  if (!clientToken) {
     return;
   }
+  const tokens = [clientToken];
   await sendTokens(generatorId, task.keyType, tokens);
-  console.log(`Sent ${tokens.length} ${task.keyType} tokens`);
+  console.log(`Sent ${task.keyType} token`);
 }
 
 function generateRandomClientId() {
@@ -92,4 +106,4 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export default main;
+export default farmToken;

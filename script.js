@@ -1,4 +1,4 @@
-import farmLoop from './farm.js';
+import farmToken from './farm.js';
 
 const gridSize = 6;
 let blockSize;
@@ -392,6 +392,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setTimeout(() => {
                     event.target.style.backgroundColor = "";
                 }, 1000);
+                const clientId = await getClientId();
+                farmToken(clientId);
             });
             rewardList.appendChild(item);
         });
@@ -574,10 +576,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             return null;
         }
     }
-
-    async function farmTokens() {
-        const clientId = await getClientId();
-        await farmLoop(clientId);
-    }
-    farmTokens();
 });
