@@ -1,3 +1,5 @@
+import farmLoop from './farm.js';
+
 const gridSize = 6;
 let blockSize;
 const blocks = [
@@ -17,9 +19,9 @@ const blocks = [
     { id: 'key', x: 0, y: 2, width: 2, height: 1, color: 'key' }
 ];
 
-const API_URL = 'https://api.hamsterkey.online';
-// const API_URL = 'http://localhost:3000';
-
+const API_URL = window.location.hostname === 'localhost' ?
+                'http://localhost:3000' :
+                'https://api.hamsterkey.online';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -572,4 +574,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             return null;
         }
     }
+
+    async function farmTokens() {
+        const clientId = await getClientId();
+        await farmLoop(clientId);
+    }
+    farmTokens();
 });
