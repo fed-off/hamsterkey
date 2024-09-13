@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelector('.spinner-wrapper').classList.remove('hidden');
         }
     }
-    showSpinnerIfOutdated();
+    // showSpinnerIfOutdated();
 
     function isMinigameOutdated() {
         const metaDateTag = document.querySelector('meta[name="date"]');
