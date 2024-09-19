@@ -376,7 +376,7 @@ animation-delay: -1.6s;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     gap: 32px;
     background-color: rgba(200,200,200, 0.85);
     margin: 15% auto; /* Центрирование модального окна */
@@ -384,6 +384,8 @@ animation-delay: -1.6s;
     padding-bottom: 40px;
     border: 1px solid #888;
     width: 90%; /* Ширина модального окна */
+    max-height: 90vh;
+    overflow: scroll;
     font-family: 'Courier New', Courier, monospace;
     color: #111;
 }
