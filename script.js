@@ -1,5 +1,3 @@
-import farmToken from './farm.js';
-
 const gridSize = 6;
 let blockSize;
 const blocks = [
@@ -18,38 +16,7 @@ const blocks = [
     {"id":"green6","x":3,"y":5,"width":2,"height":1,"color":"green"},
 ];
 
-const API_URL = window.location.hostname === 'localhost' ?
-                'http://localhost:3000' :
-                'https://api.hamsterkey.online';
-
 document.addEventListener('DOMContentLoaded', async () => {
-
-    const giftModal = document.querySelector('#gift-modal');
-    const questsModal = document.querySelector('#quests-modal');
-    const donateModal = document.querySelector('#donate-modal');
-    const rewardList = giftModal.querySelector('.reward-list');
-    const closeGiftModalButton = giftModal.querySelector('.close');
-    const closeQuestsModalButton = questsModal.querySelector('.close');
-    const questList = questsModal.querySelector('.quest-list');
-    const questItemTemplate = document.querySelector('#quest-item-template');
-    const rewardItemTemplate = document.querySelector('#reward-item-template');
-    const questCounterTag = document.querySelector('.quest-counter');
-    const questsModalCounter = questsModal.querySelector('.quests-modal-counter');
-    const buttonQuest = document.querySelector('.gift');
-    const donateButton = document.querySelector('.donate');
-
-    let clientId = null;
-    let quests = [];
-
-    async function initQuests() {
-        quests = await getQuests();
-        updateQuestCounter();
-        addQuestsToModal();
-        if (!isMinigameOutdated()) {
-            showQuestsModal();
-        }
-    }
-    initQuests();
 
     const grid = document.querySelector('.grid');
     const viewPortSize = document.documentElement.clientWidth;
@@ -97,7 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Обновление таймера каждую секунду
     function startTimer() {
         startTime = Date.now();
-        return;
         timerInterval = setInterval(() => {
             totalSeconds++;
             const minutes = Math.floor(totalSeconds / 60);
@@ -111,7 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Функция для остановки таймера
     function stopTimer() {
         endTime = Date.now();
-        return;
 
         const GREEN = 'rgba(0, 254, 100, 0.2)';
         const RED = 'rgba(252, 20, 18, 0.2)';
@@ -129,7 +94,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     function resetTimer() {
         stopTimer();
         startTimer();
-        return;
         totalSeconds = 0;
         timerValue.textContent = '00:00';
         timerValue.style.backgroundColor = 'transparent';
@@ -261,294 +225,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         return false;
     }
 
-    function showSpinnerIfOutdated() {
-        if (isMinigameOutdated()) {
-            document.querySelector('.main-content').classList.add('hidden');
-            document.querySelector('.spinner-wrapper').classList.remove('hidden');
-        }
-    }
-    // showSpinnerIfOutdated();
-
-    function isMinigameOutdated() {
-        const metaDateTag = document.querySelector('meta[name="date"]');
-        const lastUpdated = new Date(metaDateTag.content + 'T20:00:00Z');
-        const nextUpdate = new Date(lastUpdated);
-        nextUpdate.setUTCDate(nextUpdate.getUTCDate() + 1);
-
-        const now = new Date();
-        return now > nextUpdate;
-    }
-
-    function updateQuestCounter() {
-        const totalQuests = quests.length;
-        const doneQuests = quests.filter(quest => quest.done).length;
-        const availableQuests = quests.filter(quest => !quest.done).length;
-        questCounterTag.textContent = `${availableQuests}`;
-        questsModalCounter.textContent = `${doneQuests}/${totalQuests}`;
-        if (availableQuests === 0) {
-            buttonQuest.classList.remove('animate');
-        }
-    }
-
-    function addQuestsToModal() {
-        quests.forEach(quest => {
-            let action = 'validate';
-            const item = questItemTemplate.content.cloneNode(true);
-            item.querySelector('.quest-text').textContent = translate(quest.ru, quest.en);
-            const button = item.querySelector('.quest-button');
-            if (quest.done) {
-                button.classList.add('quest-button--done');
-            } else if (quest.type === 'link' && !quest.visited) {
-                button.classList.add('quest-button--link');
-                action = 'link';
-            }
-            button.addEventListener('click', async (event) => {
-                if (action === 'validate') {
-                    const rewards = await sendQuestValidate(quest.id);
-                    if (rewards.length > 0) {
-                        showGiftModal(rewards);
-                        quest.done = true;
-                        updateQuestCounter();
-                        event.target.classList.add('quest-button--done');
-                    }
-                } else if (action === 'link') {
-                    window.open(quest.url, '_blank');
-                    const ok = await sendQuestEventLink(quest.id);
-                    if (ok) {
-                        quest.visited = true;
-                        event.target.classList.remove('quest-button--link');
-                        action = 'validate';
-                    }
-                }
-            });
-            questList.appendChild(item);
-        });
-    }
-
-    function fallbackCopyTextToClipboard(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";  // Избегаем прокрутки
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-        } catch (err) {
-            console.error('Не удалось скопировать текст', err);
-        }
-        document.body.removeChild(textArea);
-    }
-
-    async function copyToClipboard(text) {
-        try {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                await navigator.clipboard.writeText(text);
-            } else {
-                console.warn('Не удалось скопировать текст', err);
-                fallbackCopyTextToClipboard(text);
-            }
-        } catch (err) {
-            console.warn('Не удалось скопировать текст', err);
-            fallbackCopyTextToClipboard(text);
-        }
-    }
-
-    function showGiftModal(keys) {
-        keys.forEach(key => {
-            const item = rewardItemTemplate.content.cloneNode(true);
-            item.querySelector('p').textContent = key;
-            const button = item.querySelector('.copy-button');
-            button.addEventListener('click', async (event) => {
-                button.classList.add('copy-button--copied');
-                copyToClipboard(key);
-                event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
-                setTimeout(() => {
-                    event.target.style.backgroundColor = "";
-                }, 1000);
-                const clientId = await getClientId();
-                farmToken(clientId);
-            });
-            rewardList.appendChild(item);
-        });
-        giftModal.classList.remove('hidden');
-    }
-
-    donateModal.querySelectorAll('.copy-button').forEach((button) => {
-        button.addEventListener('click', (event) => {
-            const walletType = event.target.dataset.wallet;
-            const wallets = {
-                ton: "UQAGV0fsyCWZQ6iXqahJ_Q8-fldNr9hXgWwGLAUS6y-5Wblm",
-                eth: "0x1cf750cD6235453b95f33283cb58468Dd0e4E8Ae",
-                bybit: "242516986",
-            };
-            copyToClipboard(wallets[walletType]);
-            event.target.style.backgroundColor = "rgba(10, 250, 100, 0.7)";
-            setTimeout(() => {
-                event.target.style.backgroundColor = "";
-            }, 1000);
-        });
-    });
-
-    donateButton.addEventListener('click', () => {
-        donateModal.classList.remove('hidden');
-    });
-
-    function showQuestsModal() {
-        questsModal.classList.remove('hidden');
-    }
-
     const buttonRefresh = document.querySelector('.refresh');
     buttonRefresh.addEventListener('click', () => {
         resetTimer();
         resetGrid();
     });
 
-    closeGiftModalButton.addEventListener('click', (event) => {
-        const closestModal = event.target.closest('.modal');
-        closestModal.classList.add('hidden');
-        rewardList.innerHTML = '';
-    });
-
-    closeQuestsModalButton.addEventListener('click', (event) => {
-        const closestModal = event.target.closest('.modal');
-        closestModal.classList.add('hidden');
-    });
-
-    donateModal.querySelector('button.close').addEventListener('click', (event) => {
-        const closestModal = event.target.closest('.modal');
-        closestModal.classList.add('hidden');
-    });
-
-    const buttonGift = document.querySelector('.gift');
-    buttonGift.addEventListener('click', () => {
-        showQuestsModal();
-    });
-
-    // Устанавливаем скорость воспроизведения
-    document.getElementById('myVideo').playbackRate = 0.75;
-
     function translate(ru, en) {
         const htmlLang = document.documentElement.lang;
         return htmlLang === 'ru' ? ru : en;
     }
 
-    async function getClientId() {
-        if (clientId) {
-            return clientId;
-        }
-        // using Yandex.Metrika
-        for (let i = 0; i < 20; i++) {
-            if (window.yaCounter97937022) {
-                clientId = window.yaCounter97937022.getClientID();
-                return clientId;
-            }
-            await new Promise(resolve => setTimeout(resolve, 200));
-        }
-        // fallback to ip
-        try {
-            const response = await fetch(`${API_URL}/ip`);
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to get client id:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            clientId = data.ip;
-            return clientId;
-        } catch (error) {
-            console.error('Error fetching client id:', error);
-            return null;
-        }
-    }
-
-    async function getQuests() {
-        const clientId = await getClientId();
-        try {
-            const response = await fetch(`${API_URL}/quests?client=${clientId}`, { cache: 'no-store' });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to get quests:', response.status, errorData.error);
-                return [];
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching quests:', error);
-            return [];
-        }
-    }
-
-    async function sendMiniGameResult(milliseconds) {
-        const clientId = await getClientId();
-        const body = JSON.stringify({ client: clientId, milliseconds });
-        try {
-            const response = await fetch(`${API_URL}/minigame`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to send minigame result:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error sending minigame result:', error);
-            return null;
-        }
-    }
-
-    async function sendQuestValidate(questId) {
-        const clientId = await getClientId();
-        const body = JSON.stringify({ client: clientId, quest: questId });
-        try {
-            const response = await fetch(`${API_URL}/quests`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Failed to send quest validation:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data.keys;
-        } catch (error) {
-            console.error('Error sending quest validation:', error);
-            return null;
-        }
-    }
-
-    async function sendQuestEventLink(questId) {
-        const clientId = await getClientId();
-        const body = JSON.stringify({ event: 'link', client: clientId, quest: questId });
-        try {
-            const response = await fetch(`${API_URL}/events`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.warn('Unexpected response from api:', response.status, errorData.error);
-                return null;
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error communicating with api', error);
-            return null;
-        }
-    }
 });
